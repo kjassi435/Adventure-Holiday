@@ -239,101 +239,110 @@
     var carousel = document.getElementById(carouselId);
     if (!carousel) return;
     var track = document.getElementById(trackId);
-    var cards = Array.from(track.querySelectorAll(".carousel3d__card"));
+    if (!track) return;
     var prevBtn = document.getElementById(prevId);
     var nextBtn = document.getElementById(nextId);
+
+    var isMobile = window.innerWidth <= 768;
+    var cards = Array.from(track.querySelectorAll(".carousel3d__card"));
     if (!cards.length) return;
 
-    var cardW = cards[0].offsetWidth + 28;
-    var total = cards.length;
-    var idx = 0;
-    var isDragging = false;
-    var startX = 0;
-    var currentTranslate = 0;
-    var prevTranslate = 0;
-    var autoTimer = null;
-    var AUTO_DELAY = 3000;
-    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    /* --- DESKTOP: CSS-animation infinite marquee --- */
+    function setupDesktop() {
+      track.classList.remove("auto-scroll", "touching", "dragging");
+      track.style.transform = "";
+      track.style.scrollSnapType = "";
 
-    function snapTo(i) {
-      idx = ((i % total) + total) % total;
-      currentTranslate = -(idx * cardW);
-      prevTranslate = currentTranslate;
-      track.style.transform = "translateX(" + currentTranslate + "px)";
-      cards.forEach(function (c, j) { c.classList.toggle("active", j === idx); });
+      // Clone cards for seamless loop
+      track.querySelectorAll(".carousel3d__clone").forEach(function(c) { c.remove(); });
+      cards.forEach(function(card) {
+        var clone = card.cloneNode(true);
+        clone.classList.add("carousel3d__clone");
+        track.appendChild(clone);
+      });
+
+      // Start auto-scroll via CSS animation
+      requestAnimationFrame(function() {
+        track.classList.add("auto-scroll");
+      });
+
+      // Pause on hover
+      carousel.addEventListener("mouseenter", function() { track.classList.add("touching"); });
+      carousel.addEventListener("mouseleave", function() { track.classList.remove("touching"); });
+
+      // Pause on touch
+      track.addEventListener("touchstart", function() { track.classList.add("touching"); }, { passive: true });
+      track.addEventListener("touchend", function() {
+        setTimeout(function() { track.classList.remove("touching"); }, 2000);
+      });
+
+      // Prev/Next buttons
+      if (prevBtn) prevBtn.addEventListener("click", function() {
+        track.classList.add("touching");
+        var cardW = cards[0].offsetWidth + 28;
+        var cur = Math.abs(parseFloat(getComputedStyle(track).transform.split(",")[4] || "0"));
+        var newPos = Math.max(0, cur - cardW * 2);
+        track.style.transform = "translateX(-" + newPos + "px)";
+        setTimeout(function() { track.classList.remove("touching"); }, 3000);
+      });
+      if (nextBtn) nextBtn.addEventListener("click", function() {
+        track.classList.add("touching");
+        var cardW = cards[0].offsetWidth + 28;
+        var cur = Math.abs(parseFloat(getComputedStyle(track).transform.split(",")[4] || "0"));
+        var newPos = cur + cardW * 2;
+        track.style.transform = "translateX(-" + newPos + "px)";
+        setTimeout(function() { track.classList.remove("touching"); }, 3000);
+      });
     }
 
-    snapTo(0);
+    /* --- MOBILE: native scroll-snap --- */
+    function setupMobile() {
+      track.classList.remove("auto-scroll", "touching", "dragging");
+      track.style.transform = "";
+      track.querySelectorAll(".carousel3d__clone").forEach(function(c) { c.remove(); });
+      track.style.scrollSnapType = "x mandatory";
 
-    function startAuto() {
-      stopAuto();
-      if (reducedMotion) return;
-      autoTimer = setInterval(function () { snapTo(idx + 1); }, AUTO_DELAY);
-    }
+      // Auto-scroll on mobile using JS
+      var scrollDir = 1;
+      var autoTimer = null;
 
-    function stopAuto() {
-      if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-    }
-
-    function resetAuto() { stopAuto(); startAuto(); }
-
-    startAuto();
-
-    function onPointerDown(e) {
-      if (e.button && e.button !== 0) return;
-      isDragging = true;
-      startX = e.type.includes("touch") ? e.touches[0].clientX : e.clientX;
-      track.classList.add("dragging");
-      stopAuto();
-    }
-
-    function onPointerMove(e) {
-      if (!isDragging) return;
-      var x = e.type.includes("touch") ? e.touches[0].clientX : e.clientX;
-      var diff = x - startX;
-      currentTranslate = prevTranslate + diff;
-      track.style.transform = "translateX(" + currentTranslate + "px)";
-    }
-
-    function onPointerUp() {
-      if (!isDragging) return;
-      isDragging = false;
-      track.classList.remove("dragging");
-      var moved = currentTranslate - prevTranslate;
-      if (Math.abs(moved) > 60) {
-        if (moved < 0) idx++;
-        else idx--;
+      function startMobileAuto() {
+        stopMobileAuto();
+        autoTimer = setInterval(function() {
+          var maxScroll = track.scrollWidth - track.clientWidth;
+          if (track.scrollLeft >= maxScroll - 5) scrollDir = -1;
+          if (track.scrollLeft <= 5) scrollDir = 1;
+          track.scrollBy({ left: scrollDir * track.clientWidth, behavior: "smooth" });
+        }, 3500);
       }
-      snapTo(idx);
-      resetAuto();
+
+      function stopMobileAuto() {
+        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+      }
+
+      track.addEventListener("touchstart", stopMobileAuto, { passive: true });
+      track.addEventListener("touchend", function() { setTimeout(startMobileAuto, 3000); });
+
+      startMobileAuto();
+
+      // Prev/Next for mobile
+      if (prevBtn) prevBtn.addEventListener("click", function() { track.scrollBy({ left: -track.clientWidth, behavior: "smooth" }); });
+      if (nextBtn) nextBtn.addEventListener("click", function() { track.scrollBy({ left: track.clientWidth, behavior: "smooth" }); });
     }
 
-    track.addEventListener("mousedown", onPointerDown);
-    track.addEventListener("mousemove", onPointerMove);
-    track.addEventListener("mouseup", onPointerUp);
-    track.addEventListener("mouseleave", function () { if (isDragging) onPointerUp(); });
+    if (isMobile) setupMobile(); else setupDesktop();
 
-    track.addEventListener("touchstart", onPointerDown, { passive: true });
-    track.addEventListener("touchmove", onPointerMove, { passive: true });
-    track.addEventListener("touchend", onPointerUp);
-
-    track.addEventListener("dragstart", function (e) { e.preventDefault(); });
-
-    carousel.addEventListener("mouseenter", stopAuto);
-    carousel.addEventListener("mouseleave", startAuto);
-
-    if (prevBtn) prevBtn.addEventListener("click", function () { snapTo(idx - 1); resetAuto(); });
-    if (nextBtn) nextBtn.addEventListener("click", function () { snapTo(idx + 1); resetAuto(); });
-
-    carousel.setAttribute("tabindex", "0");
-    carousel.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowLeft") { snapTo(idx - 1); resetAuto(); e.preventDefault(); }
-      if (e.key === "ArrowRight") { snapTo(idx + 1); resetAuto(); e.preventDefault(); }
-    });
-
-    window.addEventListener("resize", function () {
-      var newW = cards[0].offsetWidth + 28;
-      if (newW !== cardW) snapTo(idx);
+    // Handle resize
+    var resizeTimer;
+    window.addEventListener("resize", function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        var nowMobile = window.innerWidth <= 768;
+        if (nowMobile !== isMobile) {
+          isMobile = nowMobile;
+          if (isMobile) setupMobile(); else setupDesktop();
+        }
+      }, 200);
     });
   }
 

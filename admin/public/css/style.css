@@ -290,20 +290,26 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
    3D CAROUSEL (homepage popular destinations)
    ===================================================================== */
 .carousel3d { position: relative; overflow: hidden; padding: 40px 0 60px; -webkit-user-select: none; user-select: none; }
-.carousel3d__track { display: flex; gap: 28px; padding: 0 calc(50vw - 180px); cursor: grab; transition: transform 0.35s cubic-bezier(.25,.8,.25,1); will-change: transform; }
-.carousel3d__track.dragging { cursor: grabbing; transition: none; }
+.carousel3d__track { display: flex; gap: 28px; padding: 0 calc(50vw - 180px); cursor: grab; }
+.carousel3d__track.dragging { cursor: grabbing; }
+.carousel3d__track.auto-scroll { animation: carouselScroll 30s linear infinite; }
+.carousel3d__track.auto-scroll:hover,
+.carousel3d__track.auto-scroll.touching { animation-play-state: paused; }
+
+@keyframes carouselScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
 .carousel3d__card { flex: 0 0 360px; height: 420px; border-radius: 16px; overflow: hidden; position: relative; transform-style: preserve-3d; transition: transform 0.45s cubic-bezier(.25,.8,.25,1), box-shadow 0.45s ease; box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
 .carousel3d__card:hover { transform: perspective(800px) rotateY(-6deg) rotateX(3deg) scale(1.03); box-shadow: 12px 12px 40px rgba(0,0,0,0.18); }
-.carousel3d__card.active { transform: perspective(800px) rotateY(0) rotateX(0) scale(1.05); box-shadow: 0 12px 48px rgba(0,0,0,0.22); z-index: 2; }
-.carousel3d__card.active .carousel3d__overlay { opacity: 1; transform: translateY(0); }
 
 .carousel3d__img { width: 100%; height: 100%; overflow: hidden; transition: transform 0.45s ease, filter 0.45s ease; }
-.carousel3d__card:hover .carousel3d__img,
-.carousel3d__card.active .carousel3d__img { transform: scale(1.08); filter: brightness(0.55); }
+.carousel3d__card:hover .carousel3d__img { transform: scale(1.08); filter: brightness(0.55); }
 .carousel3d__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-.carousel3d__overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; opacity: 0; transform: translateY(12px); transition: opacity 0.4s ease, transform 0.4s ease; }
+.carousel3d__overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; opacity: 0; transform: translateY(12px); transition: opacity 0.4s ease, transform 0.4s ease; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%); }
+.carousel3d__card:hover .carousel3d__overlay { opacity: 1; transform: translateY(0); }
 .carousel3d__tag { font-family: var(--f-body); font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 8px; }
 .carousel3d__name { font-family: var(--f-display); font-size: 26px; font-weight: 700; color: #fff; margin: 0 0 4px; }
 .carousel3d__meta { font-family: var(--f-body); font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
@@ -320,13 +326,19 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
 .carousel3d__btn:hover { background: var(--gold); color: #fff; }
 
 @media (max-width: 768px) {
-  .carousel3d__track { padding: 0 20px; gap: 16px; }
-  .carousel3d__card { flex: 0 0 300px; height: 380px; }
-  .carousel3d__overlay { padding: 20px; }
-  .carousel3d__name { font-size: 22px; }
-}
-@media (max-width: 480px) {
-  .carousel3d__card { flex: 0 0 260px; height: 340px; }
+  .carousel3d { padding: 24px 0 40px; }
+  .carousel3d__track { display: grid; grid-template-columns: 1fr; gap: 0; padding: 0; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-behavior: smooth; }
+  .carousel3d__track::-webkit-scrollbar { display: none; }
+  .carousel3d__track.auto-scroll { animation: none; }
+  .carousel3d__card { flex: 0 0 100%; width: 100%; height: auto; aspect-ratio: 3/4; border-radius: 0; scroll-snap-align: start; }
+  .carousel3d__card:hover { transform: none; box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+  .carousel3d__overlay { opacity: 1; transform: translateY(0); padding: 24px 20px; }
+  .carousel3d__card:hover .carousel3d__overlay { opacity: 1; transform: translateY(0); }
+  .carousel3d__card:hover .carousel3d__img { transform: none; filter: brightness(0.55); }
+  .carousel3d__name { font-size: 24px; }
+  .carousel3d__actions { flex-direction: column; gap: 8px; }
+  .c3d-btn { width: 100%; padding: 14px 22px; font-size: 14px; }
+  .carousel3d__nav { display: none; }
 }
 
 /* =====================================================================

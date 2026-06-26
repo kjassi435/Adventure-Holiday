@@ -94,6 +94,15 @@ a {
 .sidebar__link--logout:hover {
   color: #ff6b6b;
 }
+.sidebar__link--view {
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sidebar__link--view:hover {
+  color: var(--gold-light, #d4af37);
+}
 
 /* ─── Main ─── */
 .main-content {

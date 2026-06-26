@@ -290,10 +290,11 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
    MARQUEE CAROUSEL — continuous auto-scroll, left to right loop
    ===================================================================== */
 .marquee-carousel { position: relative; overflow: hidden; padding: 40px 0 50px; }
-.marquee-carousel__track { display: flex; gap: 24px; width: max-content; animation: marqueeScroll 30s linear infinite; }
-.marquee-carousel:hover .marquee-carousel__track { animation-play-state: paused; }
+.marquee-carousel__track { display: flex; gap: 24px; width: max-content; animation: marqueeCarouselScroll 30s linear infinite; }
+.marquee-carousel:hover .marquee-carousel__track,
+.marquee-carousel.paused .marquee-carousel__track { animation-play-state: paused; }
 
-@keyframes marqueeScroll {
+@keyframes marqueeCarouselScroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
@@ -363,12 +364,12 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
 @media (max-width: 768px) {
   .marquee-carousel { padding: 24px 0 36px; }
   .marquee-carousel__track { gap: 16px; }
-  .marquee-carousel__card { flex: 0 0 85vw; height: 360px; }
+  .marquee-carousel__card { flex: 0 0 calc(100vw - 40px); height: 360px; }
   .marquee-carousel__overlay { padding: 20px; }
   .marquee-carousel__name { font-size: 20px; }
 }
 @media (max-width: 480px) {
-  .marquee-carousel__card { flex: 0 0 88vw; height: 320px; }
+  .marquee-carousel__card { flex: 0 0 calc(100vw - 32px); height: 320px; }
   .marquee-carousel__overlay { padding: 16px; }
   .marquee-carousel__name { font-size: 18px; }
 }
@@ -387,6 +388,7 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
 .pkg-card__body { padding: 26px 26px 28px; display: flex; flex-direction: column; flex: 1; }
 .pkg-card__loc { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); font-weight: 600; }
 .pkg-card__body h3 { font-size: 1.38rem; margin: 6px 0 10px; }
+.pkg-card__desc { color: var(--muted); font-size: 0.92rem; margin-bottom: 14px; line-height: 1.5; }
 .pkg-card__meta { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; color: var(--muted); font-size: 0.86rem; }
 .pkg-card__meta span { display: inline-flex; align-items: center; gap: 6px; }
 .pkg-card__meta svg { color: var(--gold-deep); }
@@ -802,4 +804,153 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
   .gsap-fade, .gsap-up { opacity: 1 !important; transform: none !important; }
   .marquee__track { animation: none !important; }
   .hero__scroll .mouse::after { animation: none; }
+}
+
+/* =====================================================================
+   WHATSAPP FLOATING BUTTON — bottom right, every page
+   ===================================================================== */
+.whatsapp-float {
+  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25d366; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+}
+.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.5); }
+.whatsapp-float svg { width: 28px; height: 28px; }
+@media (max-width: 480px) {
+  .whatsapp-float { bottom: 16px; right: 16px; width: 50px; height: 50px; }
+  .whatsapp-float svg { width: 24px; height: 24px; }
+}
+
+/* =====================================================================
+   BOOKING MODAL — popup form for Book Now
+   ===================================================================== */
+.booking-modal-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.booking-modal-overlay.active { display: flex; }
+
+.booking-modal {
+  background: #fff; border-radius: 16px; width: 100%; max-width: 520px;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  position: relative;
+}
+.booking-modal__header {
+  padding: 24px 28px 16px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.booking-modal__header h3 {
+  font-family: var(--f-display); font-size: 22px; font-weight: 700;
+  color: var(--forest); margin: 0;
+}
+.booking-modal__close {
+  width: 36px; height: 36px; border-radius: 50%; border: none;
+  background: var(--bg); cursor: pointer; display: flex;
+  align-items: center; justify-content: center; transition: background 0.2s;
+}
+.booking-modal__close:hover { background: var(--line); }
+.booking-modal__close svg { width: 18px; height: 18px; stroke: var(--text); }
+
+.booking-modal__body { padding: 24px 28px; }
+.booking-modal__body .field { margin-bottom: 18px; }
+.booking-modal__body .field label {
+  display: block; font-size: 13px; font-weight: 600;
+  color: var(--text); margin-bottom: 6px;
+}
+.booking-modal__body .field input,
+.booking-modal__body .field select,
+.booking-modal__body .field textarea {
+  width: 100%; padding: 12px 14px; border: 1.5px solid var(--line);
+  border-radius: 8px; font-family: var(--f-body); font-size: 14px;
+  color: var(--text); background: var(--bg);
+  transition: border-color 0.2s;
+}
+.booking-modal__body .field input:focus,
+.booking-modal__body .field select:focus,
+.booking-modal__body .field textarea:focus {
+  outline: none; border-color: var(--gold);
+}
+.booking-modal__body .field textarea { resize: vertical; min-height: 80px; }
+
+.booking-modal__footer {
+  padding: 16px 28px 24px;
+  display: flex; gap: 12px; justify-content: flex-end;
+}
+.booking-modal__footer .btn {
+  padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600;
+  cursor: pointer; border: none; transition: all 0.3s ease;
+}
+.booking-modal__footer .btn--primary {
+  background: var(--gold); color: #000;
+}
+.booking-modal__footer .btn--primary:hover { background: #b8952f; }
+.booking-modal__footer .btn--secondary {
+  background: transparent; border: 1.5px solid var(--line); color: var(--text);
+}
+.booking-modal__footer .btn--secondary:hover { background: var(--bg); }
+
+.booking-success {
+  text-align: center; padding: 40px 28px;
+}
+.booking-success__icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: #e8f5e9; color: #2e7d32;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.booking-success__icon svg { width: 32px; height: 32px; }
+.booking-success h3 {
+  font-family: var(--f-display); font-size: 22px; font-weight: 700;
+  color: var(--forest); margin: 0 0 8px;
+}
+.booking-success p { color: var(--text); margin: 0 0 4px; font-size: 14px; }
+.booking-success .ref-number {
+  display: inline-block; margin-top: 12px; padding: 8px 20px;
+  background: var(--bg); border: 1.5px solid var(--gold); border-radius: 8px;
+  font-family: var(--f-body); font-size: 16px; font-weight: 700;
+  color: var(--gold); letter-spacing: 1px;
+}
+
+@media (max-width: 480px) {
+  .booking-modal { max-width: 100%; border-radius: 12px; }
+  .booking-modal__header { padding: 18px 20px 12px; }
+  .booking-modal__header h3 { font-size: 18px; }
+  .booking-modal__body { padding: 18px 20px; }
+  .booking-modal__footer { padding: 12px 20px 18px; flex-direction: column; }
+  .booking-modal__footer .btn { width: 100%; justify-content: center; }
+}
+
+/* =====================================================================
+   MOBILE GENERAL FIXES
+   ===================================================================== */
+@media (max-width: 768px) {
+  .section { padding: 48px 0; }
+  .section--tight { padding: 32px 0; }
+  .container { padding: 0 16px; }
+  .section-head h2 { font-size: 26px; }
+  .section-head p { font-size: 14px; }
+  .hero__title { font-size: 32px; }
+  .hero__sub { font-size: 16px; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .svc-card { padding: 24px; }
+  .pkg-card { border-radius: 12px; }
+  .nav__links { padding: 16px; }
+  .footer__grid { gap: 32px; }
+  .footer__bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .detail-hero { min-height: 280px; }
+  .detail-hero h1 { font-size: 28px; }
+}
+@media (max-width: 480px) {
+  .grid-4 { grid-template-columns: 1fr; }
+  .hero__title { font-size: 26px; }
+  .section-head h2 { font-size: 22px; }
 }

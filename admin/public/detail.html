@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -12,71 +12,158 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <style>
-    .detail-page { padding-top: 80px; }
-    .detail-hero { position: relative; height: 420px; overflow: hidden; }
-    .detail-hero img { width: 100%; height: 100%; object-fit: cover; }
-    .detail-hero__overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(8,38,29,0.88) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 40px; }
-    .detail-hero__tag { font-family: var(--f-body); font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 8px; }
-    .detail-hero__overlay h1 { color: #fff; font-size: 2.8rem; margin: 0 0 6px; }
-    .detail-hero__overlay p { color: rgba(255,255,255,0.8); font-size: 1.05rem; margin: 0; }
+    .detail-page { padding-top: 0; }
+    .detail-hero { position: relative; height: 480px; overflow: hidden; }
+    .detail-hero__bg { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .detail-hero__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(8,38,29,0.35) 0%, rgba(8,38,29,0.88) 100%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 50px 40px;
+    }
+    .detail-hero__tag {
+      font-family: var(--f-body); font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 10px;
+    }
+    .detail-hero__overlay h1 {
+      color: #fff; font-size: clamp(2rem, 4vw, 3rem); margin: 0 0 8px;
+      font-family: var(--f-display); font-weight: 600; line-height: 1.1;
+    }
+    .detail-hero__overlay p {
+      color: rgba(255,255,255,0.82); font-size: 1.05rem; margin: 0;
+    }
 
-    .detail-stats { display: flex; gap: 24px; padding: 24px 32px; background: var(--ivory-2); border-radius: 12px; margin: -40px auto 0; position: relative; z-index: 2; max-width: 700px; }
+    .detail-stats {
+      display: flex; gap: 24px; padding: 24px 32px;
+      background: var(--ivory-2); border-radius: 14px;
+      margin: -36px auto 0; position: relative; z-index: 2;
+      max-width: 740px;
+    }
     .detail-stat { display: flex; align-items: center; gap: 12px; flex: 1; }
     .detail-stat svg { flex-shrink: 0; }
     .detail-stat strong { display: block; font-size: 1rem; color: var(--emerald); }
-    .detail-stat small { font-size: 0.78rem; color: var(--muted); }
+    .detail-stat small { font-size: 0.78rem; color: var(--muted); display: block; }
 
-    .detail-layout { display: grid; grid-template-columns: 1fr 380px; gap: 40px; padding: 48px 0 60px; align-items: start; }
+    .detail-layout {
+      display: grid; grid-template-columns: 1fr 380px;
+      gap: 40px; padding: 48px 0 60px; align-items: start;
+    }
     .detail-content { min-width: 0; }
+    .detail-content h2 {
+      font-family: var(--f-display); font-size: 2rem;
+      color: var(--emerald); margin-bottom: 20px;
+    }
 
     .detail-section { margin-bottom: 36px; }
-    .detail-section h3 { font-family: var(--f-display); font-size: 1.3rem; color: var(--emerald); margin: 0 0 14px; padding-left: 14px; border-left: 3px solid var(--gold); }
+    .detail-section h3 {
+      font-family: var(--f-display); font-size: 1.25rem;
+      color: var(--emerald); margin: 0 0 14px;
+      padding-left: 14px; border-left: 3px solid var(--gold);
+    }
     .detail-section p { color: var(--ink-2); line-height: 1.75; }
 
-    .detail-highlights { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .detail-highlights li { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; color: var(--ink-2); }
+    .detail-highlights {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .detail-highlights li {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.95rem; color: var(--ink-2);
+    }
 
     .detail-itinerary { display: flex; flex-direction: column; gap: 16px; }
-    .itinerary-step { display: flex; gap: 16px; align-items: flex-start; }
-    .itinerary-num { width: 36px; height: 36px; border-radius: 50%; background: var(--grad-emerald); color: var(--gold-light); display: grid; place-items: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
-    .itinerary-content strong { display: block; color: var(--emerald); margin-bottom: 2px; }
-    .itinerary-content p { margin: 0; color: var(--ink-2); font-size: 0.95rem; }
+    .detail-itinerary__day { display: flex; gap: 16px; align-items: flex-start; }
+    .detail-itinerary__day strong {
+      display: block; color: var(--emerald); margin-bottom: 2px;
+    }
+    .detail-itinerary__day p { margin: 0; color: var(--ink-2); font-size: 0.95rem; }
 
-    .detail-inclusions { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .detail-inclusions li { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; color: var(--ink-2); }
+    .detail-inclusions {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .detail-inclusions li {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.95rem; color: var(--ink-2);
+    }
+    .detail-inclusion {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.95rem; color: var(--ink-2);
+    }
 
-    .booking-sidebar { position: sticky; top: 100px; background: var(--ivory-2); border-radius: 16px; padding: 32px; box-shadow: var(--shadow-sm); }
+    .booking-sidebar {
+      position: sticky; top: 100px;
+      background: var(--ivory-2); border-radius: 16px;
+      padding: 32px; box-shadow: var(--shadow-sm);
+    }
     .booking-sidebar__price { text-align: center; margin-bottom: 20px; }
-    .booking-sidebar__orig { display: block; font-size: 1rem; color: var(--muted); text-decoration: line-through; }
-    .booking-sidebar__current { display: block; font-family: var(--f-display); font-size: 2.2rem; font-weight: 600; color: var(--emerald); line-height: 1.1; }
+    .booking-sidebar__orig {
+      display: block; font-size: 1rem; color: var(--muted);
+      text-decoration: line-through;
+    }
+    .booking-sidebar__current {
+      display: block; font-family: var(--f-display);
+      font-size: 2.2rem; font-weight: 600; color: var(--emerald); line-height: 1.1;
+    }
     .booking-sidebar__price small { font-size: 0.85rem; color: var(--muted); }
-    .booking-sidebar__cta { width: 100%; justify-content: center; padding: 14px 24px; font-size: 1rem; margin-bottom: 24px; }
+    .booking-sidebar__cta {
+      width: 100%; justify-content: center; padding: 14px 24px;
+      font-size: 1rem; margin-bottom: 24px;
+    }
 
     .booking-sidebar__features { margin-bottom: 24px; }
-    .booking-sidebar__features h4 { font-family: var(--f-display); font-size: 1rem; color: var(--emerald); margin: 0 0 12px; }
+    .booking-sidebar__features h4 {
+      font-family: var(--f-display); font-size: 1rem;
+      color: var(--emerald); margin: 0 0 12px;
+    }
     .booking-sidebar__features ul { list-style: none; padding: 0; margin: 0; }
-    .booking-sidebar__features li { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 0.9rem; color: var(--ink-2); }
+    .booking-sidebar__features li {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 0; font-size: 0.9rem; color: var(--ink-2);
+    }
 
-    .booking-sidebar__help { text-align: center; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 20px; }
+    .booking-sidebar__help {
+      text-align: center; border-top: 1px solid rgba(0,0,0,0.08);
+      padding-top: 20px;
+    }
     .booking-sidebar__help p { font-size: 0.88rem; color: var(--muted); margin: 0 0 10px; }
 
-    .detail-loading { text-align: center; padding: 120px 40px; }
+    .detail-loading { text-align: center; padding: 200px 40px; }
     .detail-loading h2 { color: var(--emerald); }
+
+    /* Detail page nav fix — always dark */
+    .detail-page-body .nav:not(.scrolled) .brand__text strong { color: var(--emerald); }
+    .detail-page-body .nav:not(.scrolled) .brand__text span { color: var(--gold-deep); }
+    .detail-page-body .nav:not(.scrolled) .brand__mark { background: var(--grad-emerald); border: 1px solid rgba(201,168,106,0.3); }
+    .detail-page-body .nav:not(.scrolled) .nav__links a { color: var(--ink); }
+    .detail-page-body .nav:not(.scrolled) .nav__links a:hover,
+    .detail-page-body .nav:not(.scrolled) .nav__links a.active { color: var(--gold-deep); }
+    .detail-page-body .nav:not(.scrolled) .nav__phone { color: var(--emerald); }
+    .detail-page-body .nav:not(.scrolled) .nav__phone svg { color: var(--gold-deep); }
+    .detail-page-body .nav:not(.scrolled) .nav__toggle span { background: var(--emerald); }
+    .detail-page-body .nav.scrolled { background: rgba(247,243,236,0.95); }
 
     @media (max-width: 900px) {
       .detail-layout { grid-template-columns: 1fr; }
       .booking-sidebar { position: static; }
-      .detail-hero { height: 300px; }
-      .detail-hero__overlay h1 { font-size: 2rem; }
-      .detail-stats { flex-direction: column; gap: 12px; padding: 20px; }
+      .detail-hero { height: 340px; }
+      .detail-hero__overlay { padding: 30px 24px; }
+      .detail-hero__overlay h1 { font-size: 1.8rem; }
+      .detail-stats { flex-direction: column; gap: 12px; padding: 20px; margin: -24px 16px 0; }
       .detail-highlights, .detail-inclusions { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .detail-hero { height: 280px; }
+      .detail-hero__overlay { padding: 20px 16px; }
+      .detail-hero__overlay h1 { font-size: 1.5rem; }
     }
   </style>
 </head>
-<body>
+<body class="detail-page-body">
 
   <!-- ===================== NAVBAR ===================== -->
-  <header class="nav" id="nav">
+  <header class="nav scrolled" id="nav">
     <div class="container nav__inner">
       <a href="index.html" class="brand" aria-label="Adventure Holiday Destination home">
         <span class="brand__mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></span>
@@ -96,9 +183,33 @@
     </div>
   </header>
 
+  <!-- ===================== DETAIL PAGE ===================== -->
   <main class="detail-page" id="detailPage">
     <div class="detail-loading" id="detailLoading">
       <h2>Loading package details...</h2>
+    </div>
+
+    <!-- Hero — filled by JS -->
+    <section class="detail-hero" id="detailHero" style="display:none;">
+      <img class="detail-hero__bg" id="detailHeroImg" src="" alt="" />
+      <div class="detail-hero__overlay">
+        <span class="detail-hero__tag" id="detailTag"></span>
+        <h1 id="detailTitle"></h1>
+        <p id="detailRegion"></p>
+      </div>
+    </section>
+
+    <!-- Stats — filled by JS -->
+    <div class="container">
+      <div class="detail-stats" id="detailStats" style="display:none;"></div>
+    </div>
+
+    <!-- Layout: content + sidebar — filled by JS -->
+    <div class="container">
+      <div class="detail-layout" id="detailLayout" style="display:none;">
+        <div class="detail-content" id="detailContent"></div>
+        <div class="booking-sidebar" id="detailSidebar"></div>
+      </div>
     </div>
   </main>
 
@@ -123,9 +234,8 @@
           <div class="brand"><span class="brand__mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></span><span class="brand__text"><strong style="color:#fff">Adventure Holiday</strong><span>Destination</span></span></div>
           <p>A trusted travel company dedicated to unforgettable experiences across India. Explore more. Create memories.</p>
           <div class="footer__social">
-            <a href="https://www.facebook.com/share/1Bjw9cFC5C/" aria-label="Facebook" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-            <a href="https://www.instagram.com/adventureholidaydestination" aria-label="Instagram" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
-            <a href="#" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg></a>
+            <a href="https://www.facebook.com/share/1Bjw9cFC5C/" target="_blank" rel="noopener" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a href="https://www.instagram.com/adventureholidaydestination?utm_source=qr&igsh=bGQ4ZHc5YWI5NGcy" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
           </div>
         </div>
         <div><h4>Quick Links</h4><ul class="footer__links"><li><a href="index.html">Home</a></li><li><a href="domestic.html">Domestic Tours</a></li><li><a href="spiritual.html">Spiritual Tours</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
@@ -143,6 +253,45 @@
       </div>
     </div>
   </footer>
+
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/918448919300?text=Hi%2C%20I%27m%20interested%20in%20your%20travel%20packages." target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- Booking Modal -->
+  <div class="booking-modal-overlay" id="bookingModal">
+    <div class="booking-modal">
+      <div class="booking-modal__header">
+        <h3>Book Your Trip</h3>
+        <button class="booking-modal__close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="booking-modal__body">
+        <form class="booking-modal__form">
+          <div class="field"><label>Full Name *</label><input type="text" name="name" required placeholder="Enter your full name" /></div>
+          <div class="field"><label>Phone Number *</label><input type="tel" name="phone" required placeholder="+91 XXXXX XXXXX" /></div>
+          <div class="field"><label>Email</label><input type="email" name="email" placeholder="your@email.com" /></div>
+          <div class="field"><label>Destination *</label><input type="text" name="destination" required readonly /></div>
+          <div class="field"><label>Preferred Travel Date</label><input type="date" name="travel_date" /></div>
+          <div class="field"><label>Number of Travellers</label><select name="travellers"><option value="1">1 Person</option><option value="2" selected>2 People</option><option value="3-5">3-5 People</option><option value="6-10">6-10 People</option><option value="10+">10+ People</option></select></div>
+          <div class="field"><label>Comments / Special Requests</label><textarea name="message" placeholder="Any special requirements, dietary needs, etc."></textarea></div>
+          <div class="booking-modal__footer">
+            <button type="button" class="btn btn--secondary" onclick="closeBookingModal()">Cancel</button>
+            <button type="submit" class="btn btn--primary">Submit Enquiry</button>
+          </div>
+        </form>
+        <div class="booking-success" style="display:none">
+          <div class="booking-success__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Enquiry Submitted!</h3>
+          <p>Thank you! Our team will contact you within 24 hours.</p>
+          <p>Your booking reference number:</p>
+          <span class="ref-number">AHD-XXXXXX</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="js/main.js"></script>
   <script src="js/detail.js"></script>

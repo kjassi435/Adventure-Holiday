@@ -138,7 +138,7 @@
     }
   });
 
-  /* ---------- Contact form ---------- */
+  /* ---------- Contact form → admin panel ---------- */
   const form = document.querySelector("#contactForm");
   if (form) {
     const success = form.querySelector(".form__success");
@@ -154,7 +154,6 @@
       if (on && msg) { const e = field.querySelector(".field__error"); if (e) e.textContent = msg; }
     };
 
-    // prefill from ?package= / ?tour=
     const params = new URLSearchParams(location.search);
     const pkg = params.get("package") || params.get("tour");
     if (pkg) {
@@ -182,24 +181,20 @@
       });
       if (!ok) return;
 
-      if (success) {
-        success.classList.add("show");
-        success.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
-      }
-      form.reset();
-
-      // mailto fallback so enquiries actually reach the team
-      const to = "info@adventureholidaydestination.com";
-      const subject = encodeURIComponent("Enquiry: " + (data.destination || "Holiday Package") + " — " + (data.name || "Website Visitor"));
-      const body = encodeURIComponent(
-        "Name: " + (data.name || "-") +
-        "\nEmail: " + (data.email || "-") +
-        "\nPhone: " + (data.phone || "-") +
-        "\nInterested in: " + (data.destination || "-") +
-        "\nTravel Date: " + (data.date || "-") +
-        "\n\nMessage:\n" + (data.message || "-")
-      );
-      setTimeout(() => window.open("mailto:" + to + "?subject=" + subject + "&body=" + body, "_blank"), 400);
+      data.package = data.destination || "";
+      fetch("/api/enquiries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      }).then(() => {
+        if (success) {
+          success.classList.add("show");
+          success.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+        }
+        form.reset();
+      }).catch(() => {
+        alert("Something went wrong. Please try again.");
+      });
     });
 
     form.querySelectorAll("input, select, textarea").forEach((el) =>
@@ -208,7 +203,8 @@
   }
 
   /* ---------- Marquee Carousel (continuous auto-scroll, seamless loop) ---------- */
-  function buildMarqueeCard(item, link) {
+  function buildMarqueeCard(item, defaultLink) {
+    var detailLink = item.link || (item.id ? "detail.html?id=" + item.id : (defaultLink || "#"));
     var div = document.createElement("div");
     div.className = "marquee-carousel__card";
     div.innerHTML =
@@ -218,8 +214,8 @@
         '<h3 class="marquee-carousel__name">' + (item.name || "") + '</h3>' +
         '<span class="marquee-carousel__meta">' + (item.meta || "") + '</span>' +
         '<div class="marquee-carousel__actions">' +
-          '<a href="' + (link || "#") + '" class="marquee-carousel__btn marquee-carousel__btn--outline">View Details</a>' +
-          '<a href="' + (link || "#") + '" class="marquee-carousel__btn marquee-carousel__btn--gold">Book Now</a>' +
+          '<a href="' + detailLink + '" class="marquee-carousel__btn marquee-carousel__btn--outline">View Details</a>' +
+          '<button class="marquee-carousel__btn marquee-carousel__btn--gold booking-trigger" data-destination="' + (item.name || "") + '">Book Now</button>' +
         '</div>' +
       '</div>';
     return div;
@@ -230,8 +226,75 @@
     if (!track || !items || !items.length) return;
     track.innerHTML = "";
     items.forEach(function(item) { track.appendChild(buildMarqueeCard(item, link)); });
-    /* duplicate for seamless loop */
     items.forEach(function(item) { track.appendChild(buildMarqueeCard(item, link)); });
+  }
+
+  function setupCarouselTouchPause() {
+    document.querySelectorAll(".marquee-carousel").forEach(function(carousel) {
+      carousel.addEventListener("touchstart", function() { carousel.classList.add("paused"); }, { passive: true });
+      carousel.addEventListener("touchend", function() { carousel.classList.remove("paused"); }, { passive: true });
+      carousel.addEventListener("touchcancel", function() { carousel.classList.remove("paused"); }, { passive: true });
+    });
+  }
+
+  /* ---------- Booking Modal ---------- */
+  function openBookingModal(destination) {
+    var overlay = document.getElementById("bookingModal");
+    if (!overlay) return;
+    overlay.classList.add("active");
+    var destInput = overlay.querySelector("[name='destination']");
+    if (destInput && destination) destInput.value = destination;
+    var form = overlay.querySelector(".booking-modal__form");
+    if (form) form.style.display = "";
+    var success = overlay.querySelector(".booking-success");
+    if (success) success.style.display = "none";
+  }
+
+  function closeBookingModal() {
+    var overlay = document.getElementById("bookingModal");
+    if (overlay) overlay.classList.remove("active");
+  }
+  window.closeBookingModal = closeBookingModal;
+
+  function setupBookingModal() {
+    var overlay = document.getElementById("bookingModal");
+    if (!overlay) return;
+    overlay.querySelector(".booking-modal__close").addEventListener("click", closeBookingModal);
+    overlay.addEventListener("click", function(e) { if (e.target === overlay) closeBookingModal(); });
+    document.addEventListener("keydown", function(e) { if (e.key === "Escape") closeBookingModal(); });
+
+    document.addEventListener("click", function(e) {
+      var trigger = e.target.closest(".booking-trigger");
+      if (trigger) {
+        e.preventDefault();
+        openBookingModal(trigger.dataset.destination || "");
+      }
+    });
+
+    var form = overlay.querySelector(".booking-modal__form");
+    if (form) {
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        var data = {};
+        new FormData(form).forEach(function(v, k) { data[k] = v; });
+        var ref = "AHD-" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substring(2, 6).toUpperCase();
+        data.message = (data.message || "") + " | Ref: " + ref;
+
+        fetch("/api/enquiries", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        }).then(function(r) { return r.json(); }).then(function() {
+          form.style.display = "none";
+          var success = overlay.querySelector(".booking-success");
+          var refEl = success.querySelector(".ref-number");
+          if (refEl) refEl.textContent = ref;
+          success.style.display = "";
+        }).catch(function() {
+          alert("Something went wrong. Please try again.");
+        });
+      });
+    }
   }
 
   /* ---------- Load carousel content from API and initialize ---------- */
@@ -252,8 +315,13 @@
         if (data.items.popular && data.items.popular.length) initMarquee("carouselTrack", data.items.popular, "domestic.html");
         if (data.items.spiritual && data.items.spiritual.length) initMarquee("carouselTrackSpir", data.items.spiritual, "spiritual.html");
       }
+      setupCarouselTouchPause();
+      setupBookingModal();
     })
-    .catch(function() {});
+    .catch(function() {
+      setupCarouselTouchPause();
+      setupBookingModal();
+    });
 
   /* ---------- Footer year ---------- */
   const yr = document.querySelector("#year");

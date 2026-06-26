@@ -147,7 +147,7 @@
         <h2 id="popularSub">Where India goes to holiday</h2>
       </div>
     </div>
-    <div class="marquee-carousel">
+    <div class="marquee-carousel" data-animate="up">
       <div class="marquee-carousel__track" id="carouselTrack"></div>
     </div>
   </section>
@@ -242,7 +242,7 @@
         <h2 id="spirSub">Divine destinations await</h2>
       </div>
     </div>
-    <div class="marquee-carousel">
+    <div class="marquee-carousel" data-animate="up">
       <div class="marquee-carousel__track" id="carouselTrackSpir"></div>
     </div>
   </section>

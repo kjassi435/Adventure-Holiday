@@ -34,11 +34,19 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const body = await request.json();
+    const ref = "AHD-" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substring(2, 6).toUpperCase();
+    const message = [
+      body.message || "",
+      body.travel_date ? "Travel Date: " + body.travel_date : "",
+      body.travellers ? "Travellers: " + body.travellers : "",
+      "Ref: " + ref
+    ].filter(Boolean).join(" | ");
+
     await db.execute({
       sql: "INSERT INTO enquiries (name, email, phone, package, message, status) VALUES (?,?,?,?,?,?)",
-      args: [body.name || "", body.email || "", body.phone || "", body.package || "", body.message || "", "new"],
+      args: [body.name || "", body.email || "", body.phone || "", body.destination || body.package || "", message, "new"],
     });
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, ref: ref });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

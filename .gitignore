@@ -5,3 +5,9 @@ node_modules/
 *.db-journal
 .DS_Store
 Thumbs.db
+
+auth*
+local.db
+*.db
+*.db-wal
+*.db-shm

@@ -5,7 +5,6 @@ import { verifyPassword, createToken } from "../../../../../lib/auth.js";
 export async function POST(request) {
   try {
     const { email, password } = await request.json();
-
     const result = await db.execute({
       sql: "SELECT * FROM users WHERE email = ?",
       args: [email],

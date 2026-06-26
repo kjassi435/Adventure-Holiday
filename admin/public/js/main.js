@@ -207,143 +207,31 @@
     );
   }
 
-  /* ---------- 3D Carousel (homepage) ---------- */
-  function buildCarouselCard(item) {
+  /* ---------- Marquee Carousel (continuous auto-scroll, seamless loop) ---------- */
+  function buildMarqueeCard(item, link) {
     var div = document.createElement("div");
-    div.className = "carousel3d__card";
-    if (item.data_dest) div.setAttribute("data-dest", item.data_dest);
+    div.className = "marquee-carousel__card";
     div.innerHTML =
-      '<div class="carousel3d__img"><img src="' + (item.image || "") + '" alt="' + (item.name || "") + '" loading="lazy" /></div>' +
-      '<div class="carousel3d__overlay">' +
-        '<span class="carousel3d__tag">' + (item.tag || "") + '</span>' +
-        '<h3 class="carousel3d__name">' + (item.name || "") + '</h3>' +
-        '<span class="carousel3d__meta">' + (item.meta || "") + '</span>' +
-        '<div class="carousel3d__actions">' +
-          '<a href="' + (item.link || "#") + '" class="c3d-btn c3d-btn--outline">View Details</a>' +
-          '<a href="' + (item.link || "#") + '" class="c3d-btn c3d-btn--gold">Book Now</a>' +
+      '<div class="marquee-carousel__img"><img src="' + (item.image || "") + '" alt="' + (item.name || "") + '" loading="lazy" /></div>' +
+      '<div class="marquee-carousel__overlay">' +
+        '<span class="marquee-carousel__tag">' + (item.tag || "") + '</span>' +
+        '<h3 class="marquee-carousel__name">' + (item.name || "") + '</h3>' +
+        '<span class="marquee-carousel__meta">' + (item.meta || "") + '</span>' +
+        '<div class="marquee-carousel__actions">' +
+          '<a href="' + (link || "#") + '" class="marquee-carousel__btn marquee-carousel__btn--outline">View Details</a>' +
+          '<a href="' + (link || "#") + '" class="marquee-carousel__btn marquee-carousel__btn--gold">Book Now</a>' +
         '</div>' +
       '</div>';
     return div;
   }
 
-  function populateCarousel(trackId, items) {
+  function initMarquee(trackId, items, link) {
     var track = document.getElementById(trackId);
     if (!track || !items || !items.length) return;
     track.innerHTML = "";
-    items.forEach(function(item) {
-      track.appendChild(buildCarouselCard(item));
-    });
-  }
-
-  function initCarousel3D(carouselId, trackId, prevId, nextId) {
-    var carousel = document.getElementById(carouselId);
-    if (!carousel) return;
-    var track = document.getElementById(trackId);
-    if (!track) return;
-    var prevBtn = document.getElementById(prevId);
-    var nextBtn = document.getElementById(nextId);
-
-    var isMobile = window.innerWidth <= 768;
-    var cards = Array.from(track.querySelectorAll(".carousel3d__card"));
-    if (!cards.length) return;
-
-    /* --- DESKTOP: CSS-animation infinite marquee --- */
-    function setupDesktop() {
-      track.classList.remove("auto-scroll", "touching", "dragging");
-      track.style.transform = "";
-      track.style.scrollSnapType = "";
-
-      // Clone cards for seamless loop
-      track.querySelectorAll(".carousel3d__clone").forEach(function(c) { c.remove(); });
-      cards.forEach(function(card) {
-        var clone = card.cloneNode(true);
-        clone.classList.add("carousel3d__clone");
-        track.appendChild(clone);
-      });
-
-      // Start auto-scroll via CSS animation
-      requestAnimationFrame(function() {
-        track.classList.add("auto-scroll");
-      });
-
-      // Pause on hover
-      carousel.addEventListener("mouseenter", function() { track.classList.add("touching"); });
-      carousel.addEventListener("mouseleave", function() { track.classList.remove("touching"); });
-
-      // Pause on touch
-      track.addEventListener("touchstart", function() { track.classList.add("touching"); }, { passive: true });
-      track.addEventListener("touchend", function() {
-        setTimeout(function() { track.classList.remove("touching"); }, 2000);
-      });
-
-      // Prev/Next buttons
-      if (prevBtn) prevBtn.addEventListener("click", function() {
-        track.classList.add("touching");
-        var cardW = cards[0].offsetWidth + 28;
-        var cur = Math.abs(parseFloat(getComputedStyle(track).transform.split(",")[4] || "0"));
-        var newPos = Math.max(0, cur - cardW * 2);
-        track.style.transform = "translateX(-" + newPos + "px)";
-        setTimeout(function() { track.classList.remove("touching"); }, 3000);
-      });
-      if (nextBtn) nextBtn.addEventListener("click", function() {
-        track.classList.add("touching");
-        var cardW = cards[0].offsetWidth + 28;
-        var cur = Math.abs(parseFloat(getComputedStyle(track).transform.split(",")[4] || "0"));
-        var newPos = cur + cardW * 2;
-        track.style.transform = "translateX(-" + newPos + "px)";
-        setTimeout(function() { track.classList.remove("touching"); }, 3000);
-      });
-    }
-
-    /* --- MOBILE: native scroll-snap --- */
-    function setupMobile() {
-      track.classList.remove("auto-scroll", "touching", "dragging");
-      track.style.transform = "";
-      track.querySelectorAll(".carousel3d__clone").forEach(function(c) { c.remove(); });
-      track.style.scrollSnapType = "x mandatory";
-
-      // Auto-scroll on mobile using JS
-      var scrollDir = 1;
-      var autoTimer = null;
-
-      function startMobileAuto() {
-        stopMobileAuto();
-        autoTimer = setInterval(function() {
-          var maxScroll = track.scrollWidth - track.clientWidth;
-          if (track.scrollLeft >= maxScroll - 5) scrollDir = -1;
-          if (track.scrollLeft <= 5) scrollDir = 1;
-          track.scrollBy({ left: scrollDir * track.clientWidth, behavior: "smooth" });
-        }, 3500);
-      }
-
-      function stopMobileAuto() {
-        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-      }
-
-      track.addEventListener("touchstart", stopMobileAuto, { passive: true });
-      track.addEventListener("touchend", function() { setTimeout(startMobileAuto, 3000); });
-
-      startMobileAuto();
-
-      // Prev/Next for mobile
-      if (prevBtn) prevBtn.addEventListener("click", function() { track.scrollBy({ left: -track.clientWidth, behavior: "smooth" }); });
-      if (nextBtn) nextBtn.addEventListener("click", function() { track.scrollBy({ left: track.clientWidth, behavior: "smooth" }); });
-    }
-
-    if (isMobile) setupMobile(); else setupDesktop();
-
-    // Handle resize
-    var resizeTimer;
-    window.addEventListener("resize", function() {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function() {
-        var nowMobile = window.innerWidth <= 768;
-        if (nowMobile !== isMobile) {
-          isMobile = nowMobile;
-          if (isMobile) setupMobile(); else setupDesktop();
-        }
-      }, 200);
-    });
+    items.forEach(function(item) { track.appendChild(buildMarqueeCard(item, link)); });
+    /* duplicate for seamless loop */
+    items.forEach(function(item) { track.appendChild(buildMarqueeCard(item, link)); });
   }
 
   /* ---------- Load carousel content from API and initialize ---------- */
@@ -361,18 +249,11 @@
       if (spirSub && h.spiritual_subtitle) spirSub.textContent = h.spiritual_subtitle;
 
       if (data.items) {
-        if (data.items.popular && data.items.popular.length) populateCarousel("carouselTrack", data.items.popular);
-        if (data.items.spiritual && data.items.spiritual.length) populateCarousel("carouselTrackSpir", data.items.spiritual);
+        if (data.items.popular && data.items.popular.length) initMarquee("carouselTrack", data.items.popular, "domestic.html");
+        if (data.items.spiritual && data.items.spiritual.length) initMarquee("carouselTrackSpir", data.items.spiritual, "spiritual.html");
       }
-
-      initCarousel3D("carousel3d", "carouselTrack", "c3dPrev", "c3dNext");
-      initCarousel3D("carousel3dSpir", "carouselTrackSpir", "c3dSpirPrev", "c3dSpirNext");
     })
-    .catch(function() {
-      // fallback: initialize with hardcoded HTML cards
-      initCarousel3D("carousel3d", "carouselTrack", "c3dPrev", "c3dNext");
-      initCarousel3D("carousel3dSpir", "carouselTrackSpir", "c3dSpirPrev", "c3dSpirNext");
-    });
+    .catch(function() {});
 
   /* ---------- Footer year ---------- */
   const yr = document.querySelector("#year");

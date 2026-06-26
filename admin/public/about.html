@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Adventure Holiday Destination</title>
+  <meta name="description" content="About Adventure Holiday Destination — our story, founder's vision, 11+ years of crafting holidays, and why thousands of travellers trust us." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="Adventure Holiday Destination home">
+        <span class="brand__mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></span>
+        <span class="brand__text"><strong>Adventure Holiday</strong><span>Destination</span></span>
+      </a>
+      <nav class="nav__links" id="navLinks">
+        <a href="index.html" data-nav>Home</a>
+        <a href="domestic.html" data-nav>Domestic</a>
+        <a href="spiritual.html" data-nav>Spiritual</a>
+        <a href="about.html" data-nav>About</a>
+        <a href="contact.html" data-nav>Contact</a>
+      </nav>
+      <div class="nav__cta">
+        <a href="tel:+918448919300" class="nav__phone"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/></svg> +91 84489 19300</a>
+        <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== PAGE HERO ===================== -->
+  <section class="page-hero">
+    <div class="page-hero__media" style="background-image:url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2000&q=80')"></div>
+    <div class="container page-hero__inner">
+      <span class="overline" data-animate="hero" style="color:var(--gold-light);">About Us</span>
+      <h1 data-animate="hero">Travellers first, always</h1>
+      <p data-animate="hero">A trusted travel company built on a simple promise — make every journey easy, affordable, and genuinely memorable.</p>
+      <div class="breadcrumb" data-animate="hero"><a href="index.html">Home</a> &nbsp;/&nbsp; About</div>
+    </div>
+  </section>
+
+  <!-- ===================== STORY ===================== -->
+  <section class="section">
+    <div class="container split">
+      <div class="split__media split__media--duo" data-animate="up" data-parallax>
+        <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80" alt="Scenic travel landscape" loading="lazy" />
+        <img src="https://images.unsplash.com/photo-1539635278303-d4002c07eae3?auto=format&fit=crop&w=600&q=80" alt="Camping under stars" loading="lazy" />
+      </div>
+      <div data-animate="up">
+        <span class="overline">Our Story</span>
+        <h2>Making travel effortless and unforgettable since 2014</h2>
+        <p>Adventure Holiday Destination was founded with a simple belief: every traveller deserves a holiday that's planned with care, priced fairly, and remembered fondly. Over a decade later, that belief has guided us to thousands of happy journeys.</p>
+        <p>From the wild forests of Jim Corbett to the serene backwaters of Kerala, from snow-covered passes in Manali to the sun-kissed beaches of Goa — we specialise in resort bookings, holiday packages, wildlife tours, honeymoon trips, family vacations, group travel, and fully customised itineraries.</p>
+        <ul class="feature-list">
+          <li>
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="tx"><strong>Quality Accommodations</strong><span>Verified, handpicked properties at every destination</span></span>
+          </li>
+          <li>
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="tx"><strong>Personalised Itineraries</strong><span>Built around your style, pace, and budget</span></span>
+          </li>
+          <li>
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="tx"><strong>Round-the-Clock Support</strong><span>Available 24 hours, every day of the week</span></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOUNDER / DIRECTOR ===================== -->
+  <!-- NOTE: Director photo, name, role, and message are PLACEHOLDER data.
+       REPLACE with the real director's details before going live. -->
+  <section class="section bg-ivory-2">
+    <div class="container">
+      <div class="section-head center" data-animate="up">
+        <span class="overline center-line">Leadership</span>
+        <h2>From the founder's desk</h2>
+      </div>
+      <div class="founder" data-animate="up">
+        <div class="founder__photo">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80&crop=face" alt="Founder portrait" loading="lazy" />
+          <div class="frame"></div>
+        </div>
+        <div>
+          <span class="overline">Founder &amp; Director</span>
+          <h3 class="founder__name">Mr. Rajesh Verma</h3>
+          <p class="founder__role">Founder &amp; Managing Director</p>
+          <p class="founder__msg">"When I started Adventure Holiday Destination in 2014, my vision was simple — to create travel experiences that people remember for a lifetime. Over a decade later, that vision hasn't changed. Every itinerary we craft, every resort we select, every journey we plan — it's all done with the care and attention that turns a trip into a story worth telling. We don't just book holidays. We build memories."</p>
+          <p class="founder__sig">Mr. Rajesh Verma</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AT A GLANCE ===================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center" data-animate="up">
+        <span class="overline center-line">At a Glance</span>
+        <h2>The numbers that matter</h2>
+      </div>
+      <div class="facts" data-animate-group>
+        <div class="fact" data-animate="stagger">
+          <div class="fact__ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+          <div class="fact__num"><span data-count="2014">2014</span></div>
+          <div class="fact__label">Year Established</div>
+        </div>
+        <div class="fact" data-animate="stagger">
+          <div class="fact__ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div class="fact__num"><span data-count="11" data-suffix="+">0</span></div>
+          <div class="fact__label">Years of Experience</div>
+        </div>
+        <div class="fact" data-animate="stagger">
+          <div class="fact__ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+          <div class="fact__num"><span data-count="5000" data-suffix="+">0</span></div>
+          <div class="fact__label">Happy Travellers</div>
+        </div>
+        <div class="fact" data-animate="stagger">
+          <div class="fact__ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="fact__num"><span data-count="50" data-suffix="+">0</span></div>
+          <div class="fact__label">Destinations Covered</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ANIMATED STATS ===================== -->
+  <section class="section--tight bg-emerald">
+    <div class="container">
+      <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:24px; text-align:center;" data-animate-group>
+        <div data-animate="stagger">
+          <div style="font-family:var(--f-display); font-weight:600; font-size:clamp(2rem,4vw,2.8rem); color:var(--gold-light); line-height:1;"><span data-count="11" data-suffix="+">0</span></div>
+          <div style="margin-top:8px; color:var(--on-emerald-2); font-size:0.95rem;">Years Experience</div>
+        </div>
+        <div data-animate="stagger">
+          <div style="font-family:var(--f-display); font-weight:600; font-size:clamp(2rem,4vw,2.8rem); color:var(--gold-light); line-height:1;"><span data-count="5000" data-suffix="+">0</span></div>
+          <div style="margin-top:8px; color:var(--on-emerald-2); font-size:0.95rem;">Happy Travellers</div>
+        </div>
+        <div data-animate="stagger">
+          <div style="font-family:var(--f-display); font-weight:600; font-size:clamp(2rem,4vw,2.8rem); color:var(--gold-light); line-height:1;"><span data-count="50" data-suffix="+">0</span></div>
+          <div style="margin-top:8px; color:var(--on-emerald-2); font-size:0.95rem;">Destinations</div>
+        </div>
+        <div data-animate="stagger">
+          <div style="font-family:var(--f-display); font-weight:600; font-size:clamp(2rem,4vw,2.8rem); color:var(--gold-light); line-height:1;">4.9★</div>
+          <div style="margin-top:8px; color:var(--on-emerald-2); font-size:0.95rem;">Google Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HQ INFO ===================== -->
+  <section class="section--tight">
+    <div class="container">
+      <div class="section-head center" data-animate="up">
+        <span class="overline center-line">Headquarters</span>
+        <h2>Based in New Delhi, serving all of India</h2>
+        <p>Our office in Shalimar Bagh, Delhi, is the hub where our team of travel experts plans every journey.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== VISION & MISSION ===================== -->
+  <section class="section bg-ivory-2">
+    <div class="container">
+      <div class="section-head center" data-animate="up">
+        <span class="overline center-line">Our Purpose</span>
+        <h2>Vision &amp; Mission</h2>
+      </div>
+      <div class="vm-grid" data-animate-group>
+        <div class="vm-card" data-animate="stagger">
+          <div class="vm-card__ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/></svg></div>
+          <span class="vm-card__tag">Our Vision</span>
+          <h3>Become a trusted, leading travel brand</h3>
+          <p>To become a trusted and leading travel brand by delivering exceptional holiday experiences and outstanding customer service.</p>
+        </div>
+        <div class="vm-card" data-animate="stagger">
+          <div class="vm-card__ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+          <span class="vm-card__tag">Our Mission</span>
+          <h3>Help travellers explore with confidence</h3>
+          <p>To help travellers explore the best destinations with confidence, comfort, and value — making travel easy, affordable, and memorable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHY CHOOSE US ===================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center" data-animate="up">
+        <span class="overline center-line">Why Travel With Us</span>
+        <h2>Six reasons travellers keep coming back</h2>
+      </div>
+      <div class="grid grid-3" data-animate-group>
+        <div class="svc-card" data-animate="stagger">
+          <div class="svc-card__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div>
+          <h3>Trusted Travel Partner</h3>
+          <p>A reliable name travellers across India have counted on for over a decade.</p>
+        </div>
+        <div class="svc-card" data-animate="stagger">
+          <div class="svc-card__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <h3>Competitive Pricing</h3>
+          <p>Quality experiences at the best value — no hidden costs, transparent quotes.</p>
+        </div>
+        <div class="svc-card" data-animate="stagger">
+          <div class="svc-card__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78z"/></svg></div>
+          <h3>Personalised Service</h3>
+          <p>Every itinerary shaped around your preferences, pace, and budget.</p>
+        </div>
+        <div class="svc-card" data-animate="stagger">
+          <div class="svc-card__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+          <h3>Easy Booking Process</h3>
+          <p>Simple, transparent booking from enquiry to confirmation — no hassle.</p>
+        </div>
+        <div class="svc-card" data-animate="stagger">
+          <div class="svc-card__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <h3>24/7 Customer Support</h3>
+          <p>Available around the clock, every day — before, during, and after your trip.</p>
+        </div>
+        <div class="svc-card" data-animate="stagger">
+          <div class="svc-card__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+          <h3>Customer Satisfaction Focus</h3>
+          <p>Your happiness is the measure of our success — we plan every detail like it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ACCREDITATIONS ===================== -->
+  <!-- NOTE: Accreditation names are PLACEHOLDER data. Replace with real certifications. -->
+  <section class="section--tight bg-emerald">
+    <div class="container">
+      <div class="section-head center" data-animate="up">
+        <span class="overline center-line">Accreditations</span>
+        <h2>Recognised &amp; Certified</h2>
+      </div>
+      <div class="accreds" data-animate="up">
+        <div class="accred">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12l2 2 4-4"/></svg>
+          <strong>IATA Accredited</strong>
+        </div>
+        <div class="accred">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+          <strong>Ministry of Tourism</strong>
+        </div>
+        <div class="accred">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
+          <strong>4.9★ Google Rating</strong>
+        </div>
+        <div class="accred">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <strong>Verified Travel Agency</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="cta">
+    <div class="cta__media"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=2000&q=80" alt="" loading="lazy" aria-hidden="true" /></div>
+    <div class="container cta__inner">
+      <h2 data-animate="up">Let's plan your next journey</h2>
+      <p data-animate="up">Discover why thousands of travellers start their adventures with us.</p>
+      <div class="cta__actions" data-animate="up">
+        <a href="domestic.html" class="btn btn-gold">Browse Tours <span class="arrow">→</span></a>
+        <a href="contact.html" class="btn btn-outline-light">Get In Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="brand"><span class="brand__mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></span><span class="brand__text"><strong style="color:#fff">Adventure Holiday</strong><span>Destination</span></span></div>
+          <p>A trusted travel company dedicated to unforgettable experiences across India. Explore more. Create memories.</p>
+          <div class="footer__social">
+            <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+            <a href="#" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg></a>
+          </div>
+        </div>
+        <div><h4>Quick Links</h4><ul class="footer__links"><li><a href="index.html">Home</a></li><li><a href="domestic.html">Domestic Tours</a></li><li><a href="spiritual.html">Spiritual Tours</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div><h4>Top Destinations</h4><ul class="footer__links"><li><a href="domestic.html">Jim Corbett</a></li><li><a href="domestic.html">Kerala</a></li><li><a href="domestic.html">Manali</a></li><li><a href="domestic.html">Goa</a></li><li><a href="domestic.html">Rajasthan</a></li></ul></div>
+        <div><h4>Contact</h4><ul class="footer__contact">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> AJ 52 C, Shalimar Bagh, Delhi – 110088</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07"/></svg> <a href="tel:+918448919300">+91 84489 19300</a></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> <a href="mailto:info@adventureholidaydestination.com">info@adventureholidaydestination.com</a></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Open 24 Hours · Mon–Sun</li>
+        </ul></div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span id="year">2026</span> Adventure Holiday Destination. All rights reserved.</span>
+        <span><a href="http://www.adventureholidaydestination.com">www.adventureholidaydestination.com</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

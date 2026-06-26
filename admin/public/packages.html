@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tour Packages — Adventure Holiday Destination</title>
+  <meta name="description" content="Browse curated holiday packages — domestic tours, spiritual journeys, wildlife safaris, hill stations and more. Book your dream holiday." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="Adventure Holiday Destination home">
+        <span class="brand__mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></span>
+        <span class="brand__text"><strong>Adventure Holiday</strong><span>Destination</span></span>
+      </a>
+      <nav class="nav__links" id="navLinks">
+        <a href="index.html" data-nav>Home</a>
+        <a href="domestic.html" data-nav>Domestic</a>
+        <a href="spiritual.html" data-nav>Spiritual</a>
+        <a href="about.html" data-nav>About</a>
+        <a href="contact.html" data-nav>Contact</a>
+      </nav>
+      <div class="nav__cta">
+        <a href="tel:+918448919300" class="nav__phone"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +91 84489 19300</a>
+        <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== PAGE HERO ===================== -->
+  <section class="page-hero">
+    <div class="page-hero__media" style="background-image:url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2000&q=80')"></div>
+    <div class="container page-hero__inner">
+      <span class="overline" data-animate="hero" style="color:var(--gold-light);">Holiday Packages</span>
+      <h1 data-animate="hero">Curated tours across India</h1>
+      <p data-animate="hero">Real itineraries, real pricing. Browse by category, pick a package, and let us handle the rest.</p>
+      <div class="breadcrumb" data-animate="hero"><a href="index.html">Home</a> &nbsp;/&nbsp; Tours</div>
+    </div>
+  </section>
+
+  <!-- ===================== FILTER BAR ===================== -->
+  <section class="filter-section" id="filterSection">
+    <div class="container">
+      <div class="filter-bar" data-animate="up">
+        <span class="filter-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          Filter by category
+        </span>
+        <div class="filter-pills">
+          <button class="filter-pill active" data-filter="all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+            All Packages
+          </button>
+          <button class="filter-pill" data-filter="domestic">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Domestic
+          </button>
+          <button class="filter-pill" data-filter="spiritual">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Spiritual
+          </button>
+          <button class="filter-pill" data-filter="wildlife">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+            Wildlife
+          </button>
+          <button class="filter-pill" data-filter="hillstation">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 7 8 11 12 16c4-5 4-9 0-14z"/></svg>
+            Hill Stations
+          </button>
+          <button class="filter-pill" data-filter="honeymoon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Honeymoon
+          </button>
+          <button class="filter-pill" data-filter="beach">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+            Beach
+          </button>
+          <button class="filter-pill" data-filter="nearindia">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            Near India
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ALL PACKAGES ===================== -->
+  <section class="section bg-ivory-2" id="packages">
+    <div class="container">
+      <div class="section-head center" data-animate="up">
+        <span class="overline center-line">Full Catalogue</span>
+        <h2>All holiday packages</h2>
+        <p>Each package includes accommodation, transfers, meals (as noted) and 24/7 on-trip support. Fully customisable.</p>
+      </div>
+      <div class="pkg-grid" id="pkgGrid" data-animate-group>
+        <!-- Packages injected via JS -->
+      </div>
+      <div id="noResults" style="display:none; text-align:center; padding:60px 0;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--muted-light)" stroke-width="1.5" style="margin:0 auto 16px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <p style="color:var(--muted); font-size:1.1rem;">No packages found for this category.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PACKAGE DETAIL MODAL ===================== -->
+  <div class="detail-overlay" id="detailOverlay">
+    <div class="detail-modal">
+      <button class="detail-close" id="detailClose" aria-label="Close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      <div class="detail-left" id="detailLeft">
+        <!-- Scrolling content injected via JS -->
+      </div>
+      <div class="detail-right" id="detailRight">
+        <!-- Static booking sidebar injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== BOOKING FORM MODAL ===================== -->
+  <div class="booking-overlay" id="bookingOverlay">
+    <div class="booking-modal">
+      <button class="booking-close" id="bookingClose" aria-label="Close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      <div class="booking-header">
+        <h3>Book Your Journey</h3>
+        <p id="bookingPackageName"></p>
+      </div>
+      <form id="bookingForm" action="https://formspree.io/f/xnjkjjzo" method="POST" class="booking-form">
+        <input type="hidden" name="_subject" value="New Package Booking Enquiry" />
+        <input type="hidden" name="_cc" value="info@adventureholidaydestination.com" />
+        <input type="hidden" id="formPackageName" name="Package Interested" />
+        <div class="booking-field">
+          <label for="bookName">Full Name *</label>
+          <input type="text" id="bookName" name="Name" required placeholder="Enter your full name" />
+        </div>
+        <div class="booking-field">
+          <label for="bookEmail">Email Address *</label>
+          <input type="email" id="bookEmail" name="Email" required placeholder="your@email.com" />
+        </div>
+        <div class="booking-field">
+          <label for="bookPhone">Mobile Number *</label>
+          <input type="tel" id="bookPhone" name="Phone" required placeholder="+91 XXXXX XXXXX" />
+        </div>
+        <div class="booking-field">
+          <label for="bookAddress">Address</label>
+          <textarea id="bookAddress" name="Address" rows="2" placeholder="Your address (optional)"></textarea>
+        </div>
+        <div class="booking-field-row">
+          <div class="booking-field">
+            <label for="bookDate">Travel Date *</label>
+            <input type="date" id="bookDate" name="Travel Date" required />
+          </div>
+          <div class="booking-field">
+            <label for="bookPax">No. of Travellers *</label>
+            <input type="number" id="bookPax" name="Travellers" min="1" required placeholder="2" />
+          </div>
+        </div>
+        <div class="booking-field">
+          <label for="bookMsg">Message (Optional)</label>
+          <textarea id="bookMsg" name="Message" rows="3" placeholder="Any special requests..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold booking-submit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          Submit Enquiry
+        </button>
+      </form>
+      <div class="booking-success" id="bookingSuccess">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+        <h4>Thank You!</h4>
+        <p>Your enquiry has been submitted. Our travel specialists will contact you shortly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="cta">
+    <div class="cta__media"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80" alt="" loading="lazy" aria-hidden="true" /></div>
+    <div class="container cta__inner">
+      <h2 data-animate="up">Don't see what you're looking for?</h2>
+      <p data-animate="up">Every package is just a starting point. Tell us your idea and we'll build a trip around you.</p>
+      <div class="cta__actions" data-animate="up">
+        <a href="contact.html" class="btn btn-gold">Get a Custom Quote <span class="arrow">→</span></a>
+        <a href="tel:+918448919300" class="btn btn-outline-light">Call +91 84489 19300</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="brand"><span class="brand__mark"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></span><span class="brand__text"><strong style="color:#fff">Adventure Holiday</strong><span>Destination</span></span></div>
+          <p>A trusted travel company dedicated to unforgettable experiences across India. Explore more. Create memories.</p>
+          <div class="footer__social">
+            <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+            <a href="#" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg></a>
+          </div>
+        </div>
+        <div><h4>Quick Links</h4><ul class="footer__links"><li><a href="index.html">Home</a></li><li><a href="packages.html">Tour Packages</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div><h4>Top Destinations</h4><ul class="footer__links"><li><a href="packages.html">Jim Corbett</a></li><li><a href="packages.html">Kerala</a></li><li><a href="packages.html">Manali</a></li><li><a href="packages.html">Goa</a></li><li><a href="packages.html">Rajasthan</a></li></ul></div>
+        <div><h4>Contact</h4><ul class="footer__contact">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> AJ 52 C, Shalimar Bagh, Delhi – 110088</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/></svg> <a href="tel:+918448919300">+91 84489 19300</a></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> <a href="mailto:info@adventureholidaydestination.com">info@adventureholidaydestination.com</a></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Open 24 Hours · Mon–Sun</li>
+        </ul></div>
+      </div>
+      <div class="footer__bottom">
+        <span>© <span id="year">2026</span> Adventure Holiday Destination. All rights reserved.</span>
+        <span><a href="http://www.adventureholidaydestination.com">www.adventureholidaydestination.com</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/packages.js"></script>
+</body>
+</html>

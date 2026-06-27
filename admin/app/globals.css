@@ -88,20 +88,26 @@ a {
   padding: 16px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
+.sidebar__link--back {
+  color: #000;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: block;
+  text-align: center;
+  background: var(--gold);
+  border-radius: 6px;
+  padding: 10px 12px;
+  transition: background 0.3s;
+}
+.sidebar__link--back:hover {
+  background: #b8952f;
+  color: #000;
+}
 .sidebar__link--logout {
   color: rgba(255, 255, 255, 0.5);
 }
 .sidebar__link--logout:hover {
   color: #ff6b6b;
-}
-.sidebar__link--view {
-  color: rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.sidebar__link--view:hover {
-  color: var(--gold-light, #d4af37);
 }
 
 /* ─── Main ─── */

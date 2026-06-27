@@ -68,6 +68,28 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
+        <div style={{ marginTop: 20, borderTop: "1px solid var(--border)", paddingTop: 20 }}>
+          <a href="/" style={{
+            display: "block",
+            textAlign: "center",
+            padding: "12px 20px",
+            background: "var(--gold)",
+            color: "#000",
+            borderRadius: 8,
+            textDecoration: "none",
+            fontWeight: 700,
+            fontSize: 15,
+            transition: "background 0.3s"
+          }}
+          onMouseOver={(e) => e.target.style.background = "#b8952f"}
+          onMouseOut={(e) => e.target.style.background = "var(--gold)"}
+          >
+            ← Back to Website
+          </a>
+          <p style={{ textAlign: "center", margin: "12px 0 0", fontSize: 13, color: "var(--text-muted)" }}>
+            Return to the public site
+          </p>
+        </div>
       </div>
     </div>
   );

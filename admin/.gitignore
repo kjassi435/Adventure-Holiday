@@ -11,3 +11,4 @@ local.db
 *.db
 *.db-wal
 *.db-shm
+.env*

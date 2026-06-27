@@ -20,12 +20,14 @@
   --ivory-2:       #efe8d8;   /* subtle band */
   --cream:         #FBF8F2;   /* card surface */
   --surface:       #ffffff;
+  --bg:            #F7F3EC;   /* input background */
   --line:          #e4dcc9;   /* hairline borders */
   --line-soft:     #efe9da;
 
   /* Text */
   --ink:           #1A2421;   /* near-black body */
   --ink-2:         #2c3a34;
+  --text:          #1A2421;   /* body text */
   --muted:         #5c6b63;   /* muted body */
   --muted-light:   #8a978f;
   --on-emerald:    #e9f0ec;   /* text on emerald */
@@ -271,11 +273,11 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
    MARQUEE (infinite destination strip)
    ===================================================================== */
 .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); padding: 10px 0; }
-.marquee__track { display: flex; gap: 22px; width: max-content; animation: marqueeScroll 35s linear infinite; }
-.marquee--reverse .marquee__track { animation-name: marqueeScrollReverse; animation-duration: 42s; }
+.marquee__track { display: flex; gap: 22px; width: max-content; animation: marqueeLogoScroll 35s linear infinite; }
+.marquee--reverse .marquee__track { animation-name: marqueeLogoScrollReverse; animation-duration: 42s; }
 .marquee:hover .marquee__track { animation-play-state: paused; }
-@keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-@keyframes marqueeScrollReverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+@keyframes marqueeLogoScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes marqueeLogoScrollReverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
 
 .dest-card { position: relative; width: 280px; height: 360px; border-radius: var(--radius-lg); overflow: hidden; flex-shrink: 0; box-shadow: var(--shadow-sm); }
 .dest-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
@@ -287,17 +289,10 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
 .dest-card__meta { font-size: 0.84rem; color: rgba(255,255,255,0.82); margin-top: 3px; }
 
 /* =====================================================================
-   MARQUEE CAROUSEL — continuous auto-scroll, left to right loop
+   MARQUEE CAROUSEL — driven by JS requestAnimationFrame
    ===================================================================== */
 .marquee-carousel { position: relative; overflow: hidden; padding: 40px 0 50px; }
-.marquee-carousel__track { display: flex; gap: 24px; width: max-content; animation: marqueeCarouselScroll 30s linear infinite; }
-.marquee-carousel:hover .marquee-carousel__track,
-.marquee-carousel.paused .marquee-carousel__track { animation-play-state: paused; }
-
-@keyframes marqueeCarouselScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+.marquee-carousel__track { display: flex; gap: 24px; width: max-content; will-change: transform; }
 
 .marquee-carousel__card {
   flex: 0 0 320px;
@@ -388,7 +383,6 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
 .pkg-card__body { padding: 26px 26px 28px; display: flex; flex-direction: column; flex: 1; }
 .pkg-card__loc { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); font-weight: 600; }
 .pkg-card__body h3 { font-size: 1.38rem; margin: 6px 0 10px; }
-.pkg-card__desc { color: var(--muted); font-size: 0.92rem; margin-bottom: 14px; line-height: 1.5; }
 .pkg-card__meta { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; color: var(--muted); font-size: 0.86rem; }
 .pkg-card__meta span { display: inline-flex; align-items: center; gap: 6px; }
 .pkg-card__meta svg { color: var(--gold-deep); }
@@ -672,60 +666,8 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
 .booking-sidebar__help p { color: var(--muted); font-size: 0.88rem; margin-bottom: 10px; }
 
 /* =====================================================================
-   BOOKING FORM MODAL
+   BOOKING FORM MODAL (dead code removed — see line 830+)
    ===================================================================== */
-.booking-overlay {
-  position: fixed; inset: 0; z-index: 3000;
-  background: rgba(26,36,33,0.75); backdrop-filter: blur(10px);
-  display: none; align-items: center; justify-content: center;
-  padding: 20px;
-}
-.booking-overlay.open { display: flex; }
-.booking-modal {
-  background: var(--surface); border-radius: var(--radius-xl);
-  width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
-  box-shadow: var(--shadow-lg); position: relative;
-}
-.booking-close {
-  position: absolute; top: 16px; right: 16px; z-index: 10;
-  width: 36px; height: 36px; border-radius: 50%;
-  background: rgba(255,255,255,0.9); border: 1px solid var(--line);
-  display: grid; place-items: center; transition: all .25s;
-}
-.booking-close:hover { background: var(--emerald); color: #fff; border-color: var(--emerald); }
-.booking-header {
-  background: var(--grad-emerald); color: #fff; padding: 32px 30px 24px;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0; text-align: center;
-}
-.booking-header h3 { color: var(--gold-light); font-size: 1.5rem; margin: 0 0 6px; }
-.booking-header p { color: var(--on-emerald-2); font-size: 0.88rem; margin: 0; }
-.booking-form { padding: 28px 30px 30px; }
-.booking-field { margin-bottom: 18px; }
-.booking-field label {
-  display: block; font-weight: 600; font-size: 0.84rem; color: var(--emerald);
-  margin-bottom: 6px; letter-spacing: 0.02em;
-}
-.booking-field input,
-.booking-field textarea {
-  width: 100%; padding: 12px 14px; border: 1.5px solid var(--line);
-  border-radius: var(--radius-sm); font-size: 0.95rem; color: var(--ink);
-  background: var(--ivory); transition: border-color .2s, box-shadow .2s;
-}
-.booking-field input:focus,
-.booking-field textarea:focus {
-  outline: none; border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(201,168,106,0.16);
-  background: var(--surface);
-}
-.booking-field textarea { resize: vertical; }
-.booking-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.booking-submit { width: 100%; justify-content: center; padding: 15px 24px; font-size: 1rem; margin-top: 6px; }
-.booking-success {
-  display: none; flex-direction: column; align-items: center;
-  text-align: center; padding: 50px 30px;
-}
-.booking-success h4 { color: var(--emerald); font-size: 1.4rem; margin: 16px 0 8px; }
-.booking-success p { color: var(--muted); font-size: 0.98rem; }
 
 /* =====================================================================
    Responsive

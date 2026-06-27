@@ -202,7 +202,7 @@
     );
   }
 
-  /* ---------- Marquee Carousel (continuous auto-scroll, seamless loop) ---------- */
+  /* ---------- Marquee Carousel (JS-driven requestAnimationFrame) ---------- */
   function buildMarqueeCard(item, defaultLink) {
     var detailLink = item.link || (item.id ? "detail.html?id=" + item.id : (defaultLink || "#"));
     var div = document.createElement("div");
@@ -227,14 +227,38 @@
     track.innerHTML = "";
     items.forEach(function(item) { track.appendChild(buildMarqueeCard(item, link)); });
     items.forEach(function(item) { track.appendChild(buildMarqueeCard(item, link)); });
+    startCarouselScroll(track);
   }
 
-  function setupCarouselTouchPause() {
-    document.querySelectorAll(".marquee-carousel").forEach(function(carousel) {
-      carousel.addEventListener("touchstart", function() { carousel.classList.add("paused"); }, { passive: true });
-      carousel.addEventListener("touchend", function() { carousel.classList.remove("paused"); }, { passive: true });
-      carousel.addEventListener("touchcancel", function() { carousel.classList.remove("paused"); }, { passive: true });
-    });
+  function startCarouselScroll(track) {
+    var carousel = track.parentElement;
+    var pos = 0;
+    var speed = 0.8;
+    var paused = false;
+    var cards = track.querySelectorAll(".marquee-carousel__card");
+    if (!cards.length) return;
+    var halfCount = cards.length / 2;
+    var setWidth = 0;
+    for (var i = 0; i < halfCount; i++) {
+      setWidth += cards[i].offsetWidth + 24;
+    }
+
+    function tick() {
+      if (!paused) {
+        pos -= speed;
+        if (Math.abs(pos) >= setWidth) pos += setWidth;
+        track.style.transform = "translateX(" + pos + "px)";
+      }
+      requestAnimationFrame(tick);
+    }
+
+    carousel.addEventListener("mouseenter", function() { paused = true; });
+    carousel.addEventListener("mouseleave", function() { paused = false; });
+    carousel.addEventListener("touchstart", function() { paused = true; }, { passive: true });
+    carousel.addEventListener("touchend", function() { paused = false; }, { passive: true });
+    carousel.addEventListener("touchcancel", function() { paused = false; }, { passive: true });
+
+    requestAnimationFrame(tick);
   }
 
   /* ---------- Booking Modal ---------- */
@@ -315,11 +339,9 @@
         if (data.items.popular && data.items.popular.length) initMarquee("carouselTrack", data.items.popular, "domestic.html");
         if (data.items.spiritual && data.items.spiritual.length) initMarquee("carouselTrackSpir", data.items.spiritual, "spiritual.html");
       }
-      setupCarouselTouchPause();
       setupBookingModal();
     })
     .catch(function() {
-      setupCarouselTouchPause();
       setupBookingModal();
     });
 

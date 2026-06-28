@@ -322,7 +322,7 @@
   }
 
   /* ---------- Load carousel content from API and initialize ---------- */
-  fetch("/api/carousel-content")
+  fetch("/api/carousel-content?t=" + Date.now())
     .then(function(r) { return r.json(); })
     .then(function(data) {
       var h = data.headings || {};
@@ -350,7 +350,7 @@
   if (yr) yr.textContent = new Date().getFullYear();
 
   /* ---------- Dynamic content from admin (hero, testimonials, logo) ---------- */
-  fetch("/api/content")
+  fetch("/api/content?t=" + Date.now())
     .then(function(r) { return r.json(); })
     .then(function(data) {
       var heroData = {};

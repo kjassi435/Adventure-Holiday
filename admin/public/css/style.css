@@ -141,8 +141,8 @@ h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 600; line-height: 1
 }
 
 /* Detail page — force dark nav over light hero */
-.detail-page .nav { background: rgba(8,38,29,0.55); backdrop-filter: blur(10px); }
-.detail-page .nav.scrolled { background: rgba(247,243,236,0.95); }
+.detail-page .nav { background: var(--emerald); box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+.detail-page .nav.scrolled { background: rgba(247,243,236,0.97); backdrop-filter: blur(14px); box-shadow: 0 1px 0 rgba(12,59,46,0.06), 0 8px 30px rgba(12,59,46,0.07); }
 .detail-page .nav .nav__links a { color: #fff; }
 .detail-page .nav.scrolled .nav__links a { color: var(--ink); }
 .detail-page .nav .nav__phone { color: #fff; }

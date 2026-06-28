@@ -1,10 +1,19 @@
 import { NextResponse } from "next/server";
 import db from "../../../../lib/db.js";
 
+export const dynamic = "force-dynamic";
+
+function noCache(res) {
+  res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.headers.set("Pragma", "no-cache");
+  res.headers.set("Expires", "0");
+  return res;
+}
+
 export async function GET() {
   try {
     const result = await db.execute("SELECT * FROM content ORDER BY section, key");
-    return NextResponse.json(result.rows);
+    return noCache(NextResponse.json(result.rows));
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

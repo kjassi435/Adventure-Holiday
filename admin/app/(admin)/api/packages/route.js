@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
 import db from "../../../../lib/db.js";
 
+export const dynamic = "force-dynamic";
+
+function noCache(res) {
+  res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.headers.set("Pragma", "no-cache");
+  res.headers.set("Expires", "0");
+  return res;
+}
+
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -25,7 +34,7 @@ export async function GET(request) {
     sql += " ORDER BY id ASC";
 
     const result = await db.execute({ sql, args });
-    return NextResponse.json(result.rows);
+    return noCache(NextResponse.json(result.rows));
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

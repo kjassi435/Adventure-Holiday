@@ -52,12 +52,40 @@
   var params = new URLSearchParams(window.location.search);
   var pkgId = params.get("id");
 
-  if (!pkgId) {
-    document.getElementById("detailLoading").innerHTML = "<h2>Package not found</h2><p><a href='index.html' style='color:var(--gold);'>Return to Home</a></p>";
-    return;
+  function transformApiPackage(p) {
+    return {
+      id: p.uid,
+      title: p.title,
+      region: p.region || "",
+      price: p.price,
+      origPrice: p.orig_price || p.price,
+      duration: p.duration,
+      guests: p.guests || "2",
+      img: p.img || "",
+      rating: p.rating || 4.5,
+      reviews: p.reviews || 0,
+      tag: p.tag || p.type || "Domestic",
+      highlights: typeof p.highlights === "string" ? JSON.parse(p.highlights) : (p.highlights || []),
+      description: p.description || "",
+      inclusions: typeof p.inclusions === "string" ? JSON.parse(p.inclusions) : (p.inclusions || []),
+      exclusions: typeof p.exclusions === "string" ? JSON.parse(p.exclusions) : (p.exclusions || []),
+      itinerary: typeof p.itinerary === "string" ? JSON.parse(p.itinerary) : (p.itinerary || []),
+      howToReach: p.how_to_reach || "",
+      thingsToCarry: p.things_to_carry || "",
+      importantInfo: p.important_info || "",
+      eligibility: p.eligibility || "",
+      location: p.location || "",
+      cancellation: p.cancellation || "",
+    };
   }
 
-  var pkg = allPackages.find(function (p) { return p.id === pkgId; });
+  function renderDetail(packagesList) {
+    if (!pkgId) {
+      document.getElementById("detailLoading").innerHTML = "<h2>Package not found</h2><p><a href='index.html' style='color:var(--gold);'>Return to Home</a></p>";
+      return;
+    }
+
+    var pkg = packagesList.find(function (p) { return p.id === pkgId; });
 
   if (!pkg) {
     document.getElementById("detailLoading").innerHTML = "<h2>Package not found</h2><p><a href='index.html' style='color:var(--gold);'>Return to Home</a></p>";
@@ -163,4 +191,22 @@
   document.getElementById("detailCta").style.display = "";
 
   window.scrollTo(0, 0);
+  }
+
+  (async function loadDetail() {
+    try {
+      var res = await fetch("/api/packages");
+      if (res.ok) {
+        var data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          var apiPackages = data.map(transformApiPackage);
+          renderDetail(apiPackages);
+          return;
+        }
+      }
+    } catch (e) {
+      console.log("API fetch failed, using static data");
+    }
+    renderDetail(allPackages);
+  })();
 })();

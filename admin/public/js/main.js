@@ -348,4 +348,72 @@
   /* ---------- Footer year ---------- */
   const yr = document.querySelector("#year");
   if (yr) yr.textContent = new Date().getFullYear();
+
+  /* ---------- Dynamic content from admin (hero, testimonials, logo) ---------- */
+  fetch("/api/content")
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var heroData = {};
+      var testimonialsData = null;
+      data.forEach(function(item) {
+        if (item.section === "hero") heroData[item.key] = item.value;
+        if (item.section === "testimonials") {
+          try { testimonialsData = JSON.parse(item.value); } catch(e) {}
+        }
+      });
+
+      /* -- Logo -- */
+      if (heroData.logo_url) {
+        document.querySelectorAll(".brand__logo").forEach(function(img) {
+          img.src = heroData.logo_url;
+        });
+      }
+
+      /* -- Hero section -- */
+      var heroH = document.querySelector("#heroHeading");
+      var heroS = document.querySelector("#heroSub");
+      if (heroH && heroData.hero_heading) heroH.textContent = heroData.hero_heading;
+      if (heroS && heroData.hero_sub) heroS.textContent = heroData.hero_sub;
+
+      /* -- Hero video background -- */
+      if (heroData.hero_video) {
+        var heroSection = document.querySelector(".hero");
+        if (heroSection) {
+          var existingVideo = heroSection.querySelector("video");
+          if (!existingVideo) {
+            var media = heroSection.querySelector(".hero__media");
+            if (media) {
+              var vid = document.createElement("video");
+              vid.autoplay = true;
+              vid.loop = true;
+              vid.muted = true;
+              vid.playsInline = true;
+              vid.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;";
+              vid.src = heroData.hero_video;
+              media.appendChild(vid);
+            }
+          }
+        }
+      }
+
+      /* -- Testimonials -- */
+      if (testimonialsData && testimonialsData.length) {
+        var container = document.querySelector("#testimonialsGrid");
+        if (container) {
+          container.innerHTML = "";
+          testimonialsData.forEach(function(t) {
+            var stars = "";
+            for (var i = 0; i < (parseInt(t.rating) || 5); i++) stars += "★";
+            var card = document.createElement("div");
+            card.className = "review-card";
+            card.innerHTML =
+              '<div class="review-card__stars">' + stars + '</div>' +
+              '<p class="review-card__text">&ldquo;' + (t.text || "") + '&rdquo;</p>' +
+              '<div class="review-card__author"><strong>' + (t.name || "") + '</strong><span>' + (t.location || "") + '</span></div>';
+            container.appendChild(card);
+          });
+        }
+      }
+    })
+    .catch(function() {});
 })();

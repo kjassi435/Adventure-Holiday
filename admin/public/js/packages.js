@@ -6,8 +6,11 @@
 
   const PAGE = document.body.dataset.page || "packages";
 
-  /* ---------- Domestic Package Data ---------- */
-  const domesticPackages = [
+  /* ---------- Fetch packages from API (real-time sync with admin panel) ---------- */
+  let apiPackagesReady = false;
+
+  /* ---------- Domestic Package Data (fallback) ---------- */
+  let domesticPackages = [
     { id: "d1", title: "Kashmir Paradise", region: "North India", price: "₹15,000", origPrice: "₹22,000", duration: "5N / 6D", guests: "2", img: "https://images.unsplash.com/photo-1598091383021-15ddea10925d?auto=format&fit=crop&w=800&q=80", rating: 4.9, reviews: 128, tag: "Domestic", highlights: ["Dal Lake Shikara Ride", "Mughal Gardens Visit", "Gulmarg Gondola Ride", "Pahalgam Valley Tour"], description: "Explore the paradise on earth with snow-capped mountains, serene lakes, and Mughal gardens. From Dal Lake shikara rides to Gulmarg gondola, experience Kashmir like never before.", inclusions: ["Hotel + 1 Night Houseboat", "Breakfast & Dinner", "Private Cab Sightseeing", "Airport Transfers"], itinerary: [{ day: "Day 1", desc: "Arrival in Srinagar. Airport pickup, Dal Lake Shikara ride & Mughal Gardens." }, { day: "Day 2", desc: "Srinagar to Sonmarg. Glacier views & river sightseeing." }, { day: "Day 3", desc: "Srinagar to Gulmarg. Snow activities & Gondola ride (optional)." }, { day: "Day 4", desc: "Srinagar to Pahalgam. Betaab Valley & Aru Valley visit." }, { day: "Day 5", desc: "Dal Lake Houseboat stay. Local market explorations." }, { day: "Day 6", desc: "Departure." }], howToReach: "Fly to Srinagar Airport (SXR) — direct flights from Delhi, Mumbai, and other major cities. We arrange airport pickup." },
     { id: "d2", title: "Himachal Adventure", region: "North India", price: "₹12,000", origPrice: "₹18,000", duration: "4N / 5D", guests: "2", img: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=800&q=80", rating: 4.8, reviews: 96, tag: "Domestic", highlights: ["Shimla Mall Road", "Kufri Snow Activities", "Solang Valley Adventure", "Atal Tunnel Drive"], description: "Experience the best of Himachal Pradesh — from the colonial charm of Shimla to the adventure-filled Solang Valley. Perfect for families and couples.", inclusions: ["3-Star Hotel Stay", "Breakfast & Dinner", "Private Cab", "Toll & Parking"], itinerary: [{ day: "Day 1", desc: "Delhi/Chandigarh to Shimla. Mall Road visit." }, { day: "Day 2", desc: "Shimla local: Kufri & Jakhu Temple." }, { day: "Day 3", desc: "Shimla to Manali. Enroute views." }, { day: "Day 4", desc: "Manali: Solang Valley & Atal Tunnel." }, { day: "Day 5", desc: "Return journey to Delhi." }], howToReach: "Fly to Chandigarh Airport (IXC) or take a train to Chandigarh. We arrange onward travel to Shimla." },
     { id: "d3", title: "Uttarakhand Trails", region: "North India", price: "₹14,000", origPrice: "₹20,000", duration: "5N / 6D", guests: "2", img: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80", rating: 4.7, reviews: 74, tag: "Domestic", highlights: ["Ganga Aarti Haridwar", "Mussoorie Lake View", "Nainital Boating", "Valley of Flowers Trek"], description: "From the sacred ghats of Haridwar to the serene lakes of Nainital — Uttarakhand offers spirituality and nature in perfect harmony.", inclusions: ["Hotel Accommodation", "Breakfast & Dinner", "Private Cab", "Full Sightseeing"], itinerary: [{ day: "Day 1", desc: "Delhi to Haridwar. Evening Ganga Aarti." }, { day: "Day 2", desc: "Haridwar to Mussoorie." }, { day: "Day 3", desc: "Mussoorie: Kempty Falls & Mall Road." }, { day: "Day 4", desc: "Mussoorie to Nainital." }, { day: "Day 5", desc: "Nainital: Naini Lake boating & Snow View Point." }, { day: "Day 6", desc: "Return to Delhi." }], howToReach: "Fly to Dehradun Airport (DED) or take a train to Haridwar. Road connectivity is excellent from Delhi." },
@@ -35,8 +38,8 @@
     { id: "d25", title: "Lakshadweep Escape", region: "South India", price: "₹35,000", origPrice: "₹48,000", duration: "4N / 5D", guests: "2", img: "https://images.unsplash.com/photo-1537956965359-7575183d1f57?auto=format&fit=crop&w=800&q=80", rating: 4.9, reviews: 34, tag: "Domestic", highlights: ["Bangaram Island", "Snorkeling & Kayaking", "Lagoon Activities", "Pristine Beaches"], description: "India's hidden gem — turquoise lagoons, pristine coral reefs, and untouched beaches. Lakshadweep is a tropical paradise.", inclusions: ["Resort Stay", "All Meals", "Airport Transfers", "Island Sightseeing"], itinerary: [{ day: "Day 1", desc: "Arrive Agatti Island." }, { day: "Day 2", desc: "Lagoon activities: Snorkeling & Kayaking." }, { day: "Day 3", desc: "Full day visit to Bangaram Island." }, { day: "Day 4", desc: "Beach relaxation & water sports." }, { day: "Day 5", desc: "Departure." }], howToReach: "Fly to Agatti Airport (AGX). Flights from Kochi operate on select days." }
   ];
 
-  /* ---------- Spiritual Package Data ---------- */
-  const spiritualPackages = [
+  /* ---------- Spiritual Package Data (fallback) ---------- */
+  let spiritualPackages = [
     { id: "sp1", title: "Ayodhya Ram Mandir", region: "North India", price: "₹8,000", origPrice: "₹14,000", duration: "2N / 3D", guests: "2", img: "https://images.unsplash.com/photo-1609920658906-8223bd289001?auto=format&fit=crop&w=800&q=80", rating: 4.8, reviews: 145, tag: "Temple", highlights: ["Ram Janmabhoomi Darshan", "Hanuman Garhi Visit", "Saryu Aarti", "Dashrath Mahal"], description: "Seek blessings at the grand Ram Mandir and witness the mesmerizing Saryu Aarti. A spiritual journey to the birthplace of Lord Ram.", inclusions: ["AC Cab", "Hotel Stays", "Breakfast & Dinner", "Pickup/Drop"], itinerary: [{ day: "Day 1", desc: "Arrival, Hotel check-in, Saryu Ghat evening aarti." }, { day: "Day 2", desc: "Ram Janmabhoomi, Hanuman Garhi, Kanak Bhawan & Dashrath Mahal." }, { day: "Day 3", desc: "Ram Katha Park, Temple darshan & Departure." }], howToReach: "Fly to Maharishi Valmiki International Airport (AYJ) in Ayodhya or take a train to Ayodhya Dham Junction." },
     { id: "sp2", title: "Varanasi Spiritual", region: "North India", price: "₹10,000", origPrice: "₹16,000", duration: "2N / 3D", guests: "2", img: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80", rating: 4.9, reviews: 118, tag: "Pilgrimage", highlights: ["Ganga Aarti Dashashwamedh", "Kashi Vishwanath Temple", "Sarnath Visit", "Sunrise Boat Ride"], description: "Witness the world-famous Ganga Aarti and explore the ancient spiritual capital of India. Varanasi is where tradition meets divinity.", inclusions: ["Boat Ride", "Local Cab", "Breakfast", "Hotel Stay"], itinerary: [{ day: "Day 1", desc: "Arrival, Dashashwamedh Ghat evening Ganga Aarti." }, { day: "Day 2", desc: "Kashi Vishwanath Temple, Sarnath & Manikarnika Ghat." }, { day: "Day 3", desc: "Sunrise boat ride on Ganga & Departure." }], howToReach: "Fly to Lal Bahadur Shastri Airport (VNS) in Varanasi or take a train to Varanasi Junction." },
     { id: "sp3", title: "Char Dham Yatra", region: "North India", price: "₹35,000", origPrice: "₹55,000", duration: "10N / 11D", guests: "2", img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80", rating: 4.9, reviews: 92, tag: "Pilgrimage", highlights: ["Yamunotri Temple", "Gangotri Dham", "Kedarnath Temple", "Badrinath Dham"], description: "A divine trek to the four sacred shrines of Uttarakhand. This once-in-a-lifetime yatra covers Yamunotri, Gangotri, Kedarnath, and Badrinath.", inclusions: ["Local Guide", "Yatra Registration", "AC Transport", "Half-Board Meals"], itinerary: [{ day: "Route", desc: "Haridwar → Yamunotri → Gangotri → Kedarnath → Badrinath → Rishikesh. Detailed itinerary shared upon enquiry." }], howToReach: "Fly to Dehradun Airport (DED). The yatra starts from Haridwar, which is well-connected by road and rail." },
@@ -56,7 +59,7 @@
   const noResults = document.getElementById("noResults");
   const pills = document.querySelectorAll(".filter-pill");
 
-  const packages = PAGE === "domestic" ? domesticPackages : PAGE === "spiritual" ? spiritualPackages : [...domesticPackages, ...spiritualPackages];
+  let packages = PAGE === "domestic" ? domesticPackages : PAGE === "spiritual" ? spiritualPackages : [...domesticPackages, ...spiritualPackages];
   let currentFilter = "all";
 
   /* ---------- Render Package Cards ---------- */
@@ -117,6 +120,48 @@
     });
   });
 
-  /* ---------- Init ---------- */
-  renderPackages("all");
+  /* ---------- Fetch from API, fallback to hardcoded, then render ---------- */
+  (async function loadPackages() {
+    try {
+      const res = await fetch("/api/packages");
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped = data.map(function (p) {
+            return {
+              id: p.uid,
+              title: p.title,
+              region: p.region || "",
+              price: p.price,
+              origPrice: p.orig_price || p.price,
+              duration: p.duration,
+              guests: p.guests || "2",
+              img: p.img || "",
+              rating: p.rating || 4.5,
+              reviews: p.reviews || 0,
+              tag: p.tag || p.type || "Domestic",
+              highlights: typeof p.highlights === "string" ? JSON.parse(p.highlights) : (p.highlights || []),
+              description: p.description || "",
+              inclusions: typeof p.inclusions === "string" ? JSON.parse(p.inclusions) : (p.inclusions || []),
+              exclusions: typeof p.exclusions === "string" ? JSON.parse(p.exclusions) : (p.exclusions || []),
+              itinerary: typeof p.itinerary === "string" ? JSON.parse(p.itinerary) : (p.itinerary || []),
+              howToReach: p.how_to_reach || "",
+              thingsToCarry: p.things_to_carry || "",
+              importantInfo: p.important_info || "",
+              eligibility: p.eligibility || "",
+              location: p.location || "",
+              cancellation: p.cancellation || "",
+            };
+          });
+          domesticPackages = mapped.filter(function (p) { return p.tag !== "Temple" && p.tag !== "Pilgrimage" && p.tag !== "Jyotirlinga"; });
+          spiritualPackages = mapped.filter(function (p) { return p.tag === "Temple" || p.tag === "Pilgrimage" || p.tag === "Jyotirlinga"; });
+          packages = PAGE === "domestic" ? domesticPackages : PAGE === "spiritual" ? spiritualPackages : mapped;
+          apiPackagesReady = true;
+        }
+      }
+    } catch (e) {
+      console.log("API fetch failed, using static data");
+    }
+    renderPackages("all");
+  })();
 })();

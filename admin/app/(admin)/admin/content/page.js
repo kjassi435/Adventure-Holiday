@@ -4,6 +4,15 @@ import { useEffect, useState } from "react";
 
 const TABS = ["Homepage", "Testimonials", "Hero & Logo"];
 
+function toDirectImageUrl(url) {
+  if (!url) return url;
+  var m = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (m) return "https://drive.google.com/uc?export=download&id=" + m[1];
+  var m2 = url.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+  if (m2) return "https://drive.google.com/uc?export=download&id=" + m2[1];
+  return url;
+}
+
 export default function ContentPage() {
   const [tab, setTab] = useState("Homepage");
   const [loading, setLoading] = useState(true);
@@ -174,12 +183,12 @@ export default function ContentPage() {
             <h3 style={{ marginBottom: 16, color: "var(--emerald)" }}>Logo Management</h3>
             <div className="form-group">
               <label>Logo Image URL</label>
-              <input type="text" placeholder="https://example.com/logo.png" value={hero.logo_url} onChange={(e) => setHero({ ...hero, logo_url: e.target.value })} />
-              <small style={{ color: "var(--text-muted)", fontSize: 12 }}>Paste the logo URL. This will update the logo across the entire website (header, footer, admin sidebar).</small>
+              <input type="text" placeholder="https://example.com/logo.png or /images/logo.jpg" value={hero.logo_url} onChange={(e) => setHero({ ...hero, logo_url: e.target.value })} />
+              <small style={{ color: "var(--text-muted)", fontSize: 12 }}>Paste a direct image URL. Use <code>/images/logo.jpg</code> for the current logo. Google Drive links won't work — use a direct image URL instead.</small>
             </div>
             {hero.logo_url && (
               <div style={{ marginTop: 12, padding: 16, background: "var(--surface-2)", borderRadius: 8, textAlign: "center" }}>
-                <img src={hero.logo_url} alt="Logo preview" style={{ maxHeight: 60, maxWidth: 200, objectFit: "contain" }} />
+                <img src={toDirectImageUrl(hero.logo_url)} alt="Logo preview" style={{ maxHeight: 60, maxWidth: 200, objectFit: "contain" }} />
                 <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 8 }}>Logo Preview</p>
               </div>
             )}

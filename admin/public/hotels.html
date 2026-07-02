@@ -4,8 +4,8 @@
   <script>!function(){try{var c=localStorage.getItem("ahd_logo_url");if(c){document.querySelectorAll(".brand__logo").forEach(function(i){i.src=c})}var h=localStorage.getItem("ahd_hero_heading");if(h){var el=document.getElementById("heroHeading");if(el)el.innerHTML=h}var s=localStorage.getItem("ahd_hero_sub");if(s){var el2=document.getElementById("heroSub");if(el2)el2.textContent=s}var t=localStorage.getItem("ahd_page_title");if(t)document.title=t}catch(e){}}();</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Domestic Tours — Adventure Holiday Destination</title>
-  <meta name="description" content="Explore curated domestic tour packages across India — Kashmir, Kerala, Manali, Rajasthan, Goa, Andaman and more. Book your dream holiday." />
+  <title>Hotels &amp; Resorts — Adventure Holiday Destination</title>
+  <meta name="description" content="Handpicked stays for every traveller across India. Browse hotels and resorts, compare amenities, and book your perfect stay." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -13,19 +13,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
-<body data-page="domestic">
+<body data-page="hotels">
 
   <!-- ===================== NAVBAR ===================== -->
   <header class="nav" id="nav">
     <div class="container nav__inner">
-      <a href="domestic.html" class="brand" aria-label="Adventure Holiday Destination home">
+      <a href="hotels.html" class="brand" aria-label="Adventure Holiday Destination home">
         <img src="images/logo.jpg" alt="Adventure Holiday Destination" class="brand__logo" style="height:40px;width:auto;" />
       </a>
       <nav class="nav__links" id="navLinks">
         <a href="index.html" data-nav>Home</a>
         <a href="domestic.html" data-nav>Domestic</a>
         <a href="spiritual.html" data-nav>Spiritual</a>
-        <a href="hotels.html" data-nav>Hotels</a>
+        <a href="hotels.html" data-nav class="active">Hotels</a>
         <a href="about.html" data-nav>About</a>
         <a href="contact.html" data-nav>Contact</a>
       </nav>
@@ -38,12 +38,12 @@
 
   <!-- ===================== PAGE HERO ===================== -->
   <section class="page-hero">
-    <div class="page-hero__media" style="background-image:url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2000&q=80')"></div>
+    <div class="page-hero__media" style="background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=80')"></div>
     <div class="container page-hero__inner">
-      <span class="overline" data-animate="hero" style="color:var(--gold-light);">Explore India</span>
-      <h1 data-animate="hero">Domestic Tour Packages</h1>
-      <p data-animate="hero">From Kashmir's snow to Kerala's backwaters — curated holidays across India, ready to book.</p>
-      <div class="breadcrumb" data-animate="hero"><a href="index.html">Home</a> &nbsp;/&nbsp; Domestic Tours</div>
+      <span class="overline" data-animate="hero" style="color:var(--gold-light);">Comfort &amp; Luxury</span>
+      <h1 data-animate="hero">Hotels &amp; Resorts</h1>
+      <p data-animate="hero">Handpicked stays for every traveller</p>
+      <div class="breadcrumb" data-animate="hero"><a href="index.html">Home</a> &nbsp;/&nbsp; Hotels &amp; Resorts</div>
     </div>
   </section>
 
@@ -53,42 +53,39 @@
       <div class="filter-bar" data-animate="up">
         <span class="filter-label">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-          Filter by region
+          Filter by type
         </span>
         <div class="filter-pills">
-          <button class="filter-pill active" data-filter="all">All India</button>
-          <button class="filter-pill" data-filter="North India">North India</button>
-          <button class="filter-pill" data-filter="South India">South India</button>
-          <button class="filter-pill" data-filter="East India">East India</button>
-          <button class="filter-pill" data-filter="West India">West India</button>
-          <button class="filter-pill" data-filter="Near India">Near India</button>
+          <button class="filter-pill active" data-filter="all">All</button>
+          <button class="filter-pill" data-filter="Hotel">Hotels</button>
+          <button class="filter-pill" data-filter="Resort">Resorts</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===================== ALL PACKAGES ===================== -->
-  <section class="section bg-ivory-2" id="packages">
+  <!-- ===================== ALL HOTELS ===================== -->
+  <section class="section bg-ivory-2" id="hotels">
     <div class="container">
       <div class="section-head center" data-animate="up">
-        <span class="overline center-line">Domestic Catalogue</span>
-        <h2>All domestic holiday packages</h2>
-        <p>Each package includes accommodation, transfers, meals (as noted) and 24/7 on-trip support. Fully customisable.</p>
+        <span class="overline center-line">Our Collection</span>
+        <h2>Handpicked stays across India</h2>
+        <p>From luxury resorts to charming hotels — find the perfect place to rest after your adventures.</p>
       </div>
-      <div class="pkg-grid" id="pkgGrid" data-animate-group></div>
+      <div class="pkg-grid" id="hotelGrid" data-animate-group></div>
       <div id="noResults" style="display:none; text-align:center; padding:60px 0;">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--muted-light)" stroke-width="1.5" style="margin:0 auto 16px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <p style="color:var(--muted); font-size:1.1rem;">No packages found for this region.</p>
+        <p style="color:var(--muted); font-size:1.1rem;">No hotels found for this category.</p>
       </div>
     </div>
   </section>
 
   <!-- ===================== CTA ===================== -->
   <section class="cta">
-    <div class="cta__media"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80" alt="" loading="lazy" aria-hidden="true" /></div>
+    <div class="cta__media"><img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=2000&q=80" alt="" loading="lazy" aria-hidden="true" /></div>
     <div class="container cta__inner">
-      <h2 data-animate="up">Don't see what you're looking for?</h2>
-      <p data-animate="up">Every package is just a starting point. Tell us your idea and we'll build a trip around you.</p>
+      <h2 data-animate="up">Looking for a custom stay package?</h2>
+      <p data-animate="up">Combine hotel stays with curated tours for the ultimate holiday experience.</p>
       <div class="cta__actions" data-animate="up">
         <a href="contact.html" class="btn btn-gold">Get a Custom Quote <span class="arrow">→</span></a>
         <a href="tel:+918448919300" class="btn btn-outline-light">Call +91 84489 19300</a>
@@ -108,7 +105,7 @@
             <a href="https://www.instagram.com/adventureholidaydestination?utm_source=qr&igsh=bGQ4ZHc5YWI5NGcy" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
           </div>
         </div>
-        <div><h4>Quick Links</h4><ul class="footer__links"><li><a href="index.html">Home</a></li><li><a href="domestic.html">Domestic Tours</a></li><li><a href="spiritual.html">Spiritual Tours</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li><li><a href="hotels.html">Hotels &amp; Resorts</a></li></ul></div>
+        <div><h4>Quick Links</h4><ul class="footer__links"><li><a href="index.html">Home</a></li><li><a href="domestic.html">Domestic Tours</a></li><li><a href="spiritual.html">Spiritual Tours</a></li><li><a href="hotels.html">Hotels &amp; Resorts</a></li><li><a href="about.html">About Us</a></li><li><a href="contact.html">Contact</a></li></ul></div>
         <div><h4>Top Destinations</h4><ul class="footer__links"><li><a href="domestic.html">Kashmir</a></li><li><a href="domestic.html">Kerala</a></li><li><a href="domestic.html">Manali</a></li><li><a href="domestic.html">Goa</a></li><li><a href="domestic.html">Rajasthan</a></li><li><a href="domestic.html">Andaman</a></li></ul></div>
         <div><h4>Contact</h4><ul class="footer__contact">
           <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> AJ 52 C, Shalimar Bagh, Delhi – 110088</li>
@@ -164,6 +161,6 @@
   </div>
 
   <script src="js/main.js"></script>
-  <script src="js/packages.js"></script>
+  <script src="js/hotels.js"></script>
 </body>
 </html>

@@ -261,6 +261,9 @@
     requestAnimationFrame(tick);
   }
 
+  // Expose globally for hotel carousel
+  window.startCarouselScroll = startCarouselScroll;
+
   /* ---------- Booking Modal ---------- */
   function openBookingModal(destination) {
     var overlay = document.getElementById("bookingModal");
@@ -364,16 +367,37 @@
 
       /* -- Logo -- */
       if (heroData.logo_url) {
+        var logoUrl = heroData.logo_url;
+        var gm = logoUrl.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (gm) logoUrl = "https://drive.google.com/uc?export=download&id=" + gm[1];
+        var gm2 = logoUrl.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+        if (gm2) logoUrl = "https://drive.google.com/uc?export=download&id=" + gm2[1];
         document.querySelectorAll(".brand__logo").forEach(function(img) {
-          img.src = heroData.logo_url;
+          img.src = logoUrl;
         });
+        try { localStorage.setItem("ahd_logo_url", logoUrl); } catch(e) {}
       }
 
       /* -- Hero section -- */
       var heroH = document.querySelector("#heroHeading");
       var heroS = document.querySelector("#heroSub");
-      if (heroH && heroData.hero_heading) heroH.textContent = heroData.hero_heading;
-      if (heroS && heroData.hero_sub) heroS.textContent = heroData.hero_sub;
+      if (heroH && heroData.hero_heading) {
+        var headingHtml = heroData.hero_heading;
+        if (heroData.hero_heading.indexOf("<") === -1) {
+          headingHtml = heroData.hero_heading.replace(".", ".<br/>");
+          headingHtml = headingHtml.replace(/([^<]+)$/, "<em>$1</em>");
+        }
+        heroH.innerHTML = headingHtml;
+        try { localStorage.setItem("ahd_hero_heading", headingHtml); } catch(e) {}
+      }
+      if (heroS && heroData.hero_sub) {
+        heroS.textContent = heroData.hero_sub;
+        try { localStorage.setItem("ahd_hero_sub", heroData.hero_sub); } catch(e) {}
+      }
+      if (heroData.hero_heading) {
+        document.title = "Adventure Holiday Destination — " + heroData.hero_heading;
+        try { localStorage.setItem("ahd_page_title", document.title); } catch(e) {}
+      }
 
       /* -- Hero video background -- */
       if (heroData.hero_video) {
@@ -416,4 +440,47 @@
       }
     })
     .catch(function() {});
+})();
+
+// ===================== FEATURED HOTELS CAROUSEL =====================
+(async () => {
+  const track = document.getElementById("hotelCarouselTrack");
+  if (!track) return;
+  try {
+    const res = await fetch(`/api/hotels?featured=1&t=${Date.now()}`);
+    if (!res.ok) throw new Error("Failed to load hotels");
+    const hotels = await res.json();
+    if (!hotels.length) return;
+    track.innerHTML = "";
+
+    function buildHotelCard(h) {
+      var price = "";
+      try {
+        var rooms = typeof h.room_types === "string" ? JSON.parse(h.room_types) : h.room_types;
+        if (rooms && rooms.length && rooms[0].price) price = rooms[0].price;
+      } catch(e) {}
+      var div = document.createElement("a");
+      div.href = "hotel-detail.html?uid=" + h.uid;
+      div.className = "marquee-carousel__card";
+      div.innerHTML =
+        '<div class="marquee-carousel__img"><img src="' + (h.image || "") + '" alt="' + (h.name || "") + '" loading="lazy" /></div>' +
+        '<div class="marquee-carousel__overlay">' +
+          '<span class="marquee-carousel__tag">' + (h.type === "resort" ? "Resort" : "Hotel") + '</span>' +
+          '<h3 class="marquee-carousel__name">' + (h.name || "") + '</h3>' +
+          '<span class="marquee-carousel__meta">' + (h.location || "") + '</span>' +
+          '<div class="marquee-carousel__actions">' +
+            (price ? '<span class="marquee-carousel__btn marquee-carousel__btn--gold">Starting from ' + price + '/night</span>' : '') +
+          '</div>' +
+        '</div>';
+      return div;
+    }
+
+    // Double for seamless loop
+    hotels.forEach(function(h) { track.appendChild(buildHotelCard(h)); });
+    hotels.forEach(function(h) { track.appendChild(buildHotelCard(h)); });
+
+    window.startCarouselScroll(track);
+  } catch (e) {
+    console.error("Hotel carousel load error:", e);
+  }
 })();

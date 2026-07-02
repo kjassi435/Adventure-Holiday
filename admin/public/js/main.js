@@ -384,8 +384,10 @@
       if (heroH && heroData.hero_heading) {
         var headingHtml = heroData.hero_heading;
         if (heroData.hero_heading.indexOf("<") === -1) {
-          headingHtml = heroData.hero_heading.replace(". ", ".<br/>");
-          headingHtml = headingHtml.replace(/([^<]+)$/, "<em>$1</em>");
+          var parts = heroData.hero_heading.split(". ");
+          if (parts.length >= 2) {
+            headingHtml = parts[0] + ".<br/><em>" + parts.slice(1).join(". ") + "</em>";
+          }
         }
         heroH.innerHTML = headingHtml;
         try { localStorage.setItem("ahd_hero_heading", headingHtml); } catch(e) {}

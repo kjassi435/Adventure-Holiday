@@ -384,7 +384,7 @@
       if (heroH && heroData.hero_heading) {
         var headingHtml = heroData.hero_heading;
         if (heroData.hero_heading.indexOf("<") === -1) {
-          headingHtml = heroData.hero_heading.replace(".", ".<br/>");
+          headingHtml = heroData.hero_heading.replace(". ", ".<br/>");
           headingHtml = headingHtml.replace(/([^<]+)$/, "<em>$1</em>");
         }
         heroH.innerHTML = headingHtml;

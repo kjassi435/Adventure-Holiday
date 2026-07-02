@@ -84,32 +84,5 @@
       if (grid) grid.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:3rem 0;">Unable to load hotels. Please try again later.</p>';
     });
 
-  var toggle = document.querySelector(".nav__toggle");
-  var links = document.querySelector(".nav__links");
-  if (toggle && links) {
-    var close = function () {
-      links.classList.remove("open");
-      toggle.classList.remove("open");
-      toggle.setAttribute("aria-expanded", "false");
-    };
-    toggle.addEventListener("click", function () {
-      var open = links.classList.toggle("open");
-      toggle.classList.toggle("open", open);
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    links.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", close); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
-  }
 
-  var here = (location.pathname.split("/").pop() || "index.html").toLowerCase();
-  document.querySelectorAll(".nav__links a[data-nav]").forEach(function (a) {
-    if ((a.getAttribute("href") || "").toLowerCase() === here) a.classList.add("active");
-  });
-
-  var nav = document.querySelector(".nav");
-  if (nav) {
-    var onScroll = function () { nav.classList.toggle("scrolled", window.scrollY > 40); };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-  }
 })();

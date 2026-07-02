@@ -284,18 +284,5 @@
   }
 
   // Nav
-  var toggle = document.querySelector(".nav__toggle");
-  var links = document.querySelector(".nav__links");
-  if (toggle && links) {
-    var closeNav = function () { links.classList.remove("open"); toggle.classList.remove("open"); };
-    toggle.addEventListener("click", function () { links.classList.toggle("open"); toggle.classList.toggle("open"); });
-    links.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", closeNav); });
-  }
 
-  var nav = document.querySelector(".nav");
-  if (nav) {
-    var onScroll = function () { nav.classList.toggle("scrolled", window.scrollY > 40); };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-  }
 })();
